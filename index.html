@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
-  <!-- ===== 图片轮播样式 ===== -->
+  <!-- 图片轮播样式 -->
   <style>
     .slideshow-container {
       max-width: 600px;
@@ -19,25 +19,20 @@
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
-
     .slides {
       display: flex;
       transition: transform 0.5s ease;
     }
-
     .slide {
       min-width: 100%;
       box-sizing: border-box;
     }
-
     .slide img {
       width: 100%;
       height: auto;
       display: block;
     }
-
-    .prev,
-    .next {
+    .prev, .next {
       cursor: pointer;
       position: absolute;
       top: 50%;
@@ -52,22 +47,17 @@
       text-decoration: none;
       z-index: 10;
     }
-
     .next {
       right: 0;
       border-radius: 3px 0 0 3px;
     }
-
-    .prev:hover,
-    .next:hover {
+    .prev:hover, .next:hover {
       background-color: rgba(0, 0, 0, 0.8);
     }
-
     .dots {
       text-align: center;
       padding: 10px 0;
     }
-
     .dot {
       cursor: pointer;
       height: 12px;
@@ -78,9 +68,7 @@
       display: inline-block;
       transition: background-color 0.3s ease;
     }
-
-    .dot.active,
-    .dot:hover {
+    .dot.active, .dot:hover {
       background-color: #717171;
     }
   </style>
@@ -88,7 +76,7 @@
 
 <body>
   <div class="container">
-    <!-- 第一部分：Hey Esme 祝福内容 -->
+    <!-- 第1部分：Hey Esme 文字内容（最先出现） -->
     <div class="one">
       <h1 class="one">
         <span data-node-name="greeting">Hey</span>
@@ -97,16 +85,15 @@
       <p class="two" data-node-name="greetingText">I really like your name btw!</p>
     </div>
 
-    <!-- ===== 插入的图片轮播 ===== -->
+    <!-- 第2部分：图片轮播（在文字之后，气球之前） -->
     <div class="slideshow-container">
       <div class="slides" id="slides"></div>
       <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
       <a class="next" onclick="changeSlide(1)">&#10095;</a>
       <div class="dots" id="dots"></div>
     </div>
-    <!-- ===== 轮播结束 ===== -->
 
-    <!-- 原有其他内容（保持不变） -->
+    <!-- 后续原有内容（保持不变，保留原始图片路径 lydia.png.png） -->
     <div class="three">
       <p data-node-name="text1">It's your birthday!!! :D</p>
     </div>
@@ -134,8 +121,8 @@
       </p>
     </div>
     <div class="six">
-      <!-- 修复图片文件名（原为 lydia.png.png） -->
-      <img src="img/lydia.png" alt="" class="lydia-dp" data-node-name="imagePath">
+      <!-- 保持原有图片路径不变 -->
+      <img src="img/lydia.png.png" alt="" class="lydia-dp" data-node-name="imagePath">
       <img src="img/hat.svg" alt="" class="hat">
       <div class="wish">
         <h3 class="wish-hbd" data-node-name="wishHeading">Happy Birthday!</h3>
@@ -219,7 +206,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 <script type="application/javascript" src="script/main.js"></script>
 
-<!-- ===== 图片轮播 JavaScript ===== -->
+<!-- 图片轮播 JavaScript -->
 <script>
 (function() {
   // 生成图片文件名列表（P1.jpg ~ P20.jpg）
@@ -279,9 +266,6 @@
 
   // 初始化显示第一张
   updateSlides();
-
-  // 可选自动轮播（如需启用，去掉下一行的注释）
-  // setInterval(() => changeSlide(1), 3000);
 })();
 </script>
 
