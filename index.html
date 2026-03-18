@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -91,9 +90,19 @@
     .dot.active, .dot:hover {
       background-color: #717171;
     }
+
+    /* 后续内容块通用上边距，确保顺序独立 */
+    .three, .four, .five, .six, .eight, .nine {
+      clear: both;
+      margin-top: 30px;
+    }
+
+    /* 让最后两行文字整体上移，与轮播图片之间的视觉距离更近，同时保留适当间隔 */
+    .nine {
+      margin-top: 15px;   /* 从30px减为15px，使结尾文字更紧凑，但依然保留清晰间隔 */
+    }
   </style>
 </head>
-
 <body>
   <div class="container">
     <!-- 第1部分：Hey Esme 文字内容（完全保持原样） -->
