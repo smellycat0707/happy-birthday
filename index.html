@@ -9,7 +9,19 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
-  <!-- 图片轮播样式（左右箭头贴边，底部圆点居中） -->
+</head>
+
+<body>
+  <div class="container">
+    <!-- 文字部分（原样） -->
+    <div class="one">
+      <h1 class="one">
+        <span data-node-name="greeting">Hey</span>
+        <span data-node-name="name">Esme</span>
+      </h1>
+      <p class="two" data-node-name="greetingText">I really like your name btw!</p>
+    </div>
+<!-- 图片轮播样式（左右箭头贴边，底部圆点居中） -->
   <style>
     .slideshow-container {
       max-width: 600px;
@@ -94,19 +106,7 @@
       background-color: #717171;
     }
   </style>
-</head>
-
-<body>
-  <div class="container">
-    <!-- 文字部分（原样） -->
-    <div class="one">
-      <h1 class="one">
-        <span data-node-name="greeting">Hey</span>
-        <span data-node-name="name">Esme</span>
-      </h1>
-      <p class="two" data-node-name="greetingText">I really like your name btw!</p>
-    </div>
-
+    
     <!-- 图片轮播容器（初始隐藏） -->
     <div class="slideshow-container" id="slideshowContainer">
       <div class="slides" id="slides"></div>
@@ -299,7 +299,7 @@
           updateSlides();
         }, 3000);
 
-        // 60秒后轮播结束（20张 * 3秒）
+        // 80秒后轮播结束（20张 * 4秒）
         setTimeout(function() {
           clearInterval(autoPlayInterval);
           slideshow.style.display = 'none';
@@ -308,8 +308,8 @@
           // 等待2秒空白，然后继续动画
           setTimeout(function() {
             if (window.resumeAnimation) window.resumeAnimation();
-          }, 2000);
-        }, 60000);
+          }, 4000);
+        }, 80000);
       };
     })();
 
@@ -382,11 +382,6 @@
         .from(".two", 0.4, { opacity: 0, y: 10 })
         .to(".one", 0.7, { opacity: 0, y: 10 }, "+=2.5")
         .to(".two", 0.7, { opacity: 0, y: 10 }, "-=1")
-        // 在此处添加暂停点：文字部分结束，开始轮播
-        .addPause(undefined, function() {
-          // 回调：暂停时自动开始轮播
-          if (window.startSlideshow) window.startSlideshow();
-        })
         .from(".three", 0.7, { opacity: 0, y: 10 })
         .to(".three", 0.7, { opacity: 0, y: 10 }, "+=2")
         .from(".four", 0.7, { scale: 0.2, opacity: 0 })
@@ -408,6 +403,11 @@
         .to(".idea-5", 0.7, { scale: 0.2, opacity: 0 }, "+=2")
         .staggerFrom(".idea-6 span", 0.8, { scale: 3, opacity: 0, rotation: 15, ease: Expo.easeOut }, 0.2)
         .staggerTo(".idea-6 span", 0.8, { scale: 3, opacity: 0, rotation: -15, ease: Expo.easeOut }, 0.2, "+=1")
+        // 在此处添加暂停点：所有文字部分（直到"SO"）结束，开始轮播
+        .addPause(undefined, function() {
+          // 回调：暂停时自动开始轮播
+          if (window.startSlideshow) window.startSlideshow();
+        })
         .staggerFromTo(".baloons img", 2.5, { opacity: 0.9, y: 1400 }, { opacity: 1, y: -1000 }, 0.2)
         .from(".lydia-dp", 0.5, { scale: 3.5, opacity: 0, x: 25, y: -25, rotationZ: -45 }, "-=2")
         .from(".hat", 0.5, { x: -100, y: 350, rotation: -180, opacity: 0 })
