@@ -293,7 +293,7 @@
   updateSlides();
 
   // 等待文字动画结束后显示轮播并启动自动播放
-  // 原动画大约持续10-15秒，这里等待15秒后显示
+  // 原动画大约持续40秒以上，这里等待45秒后显示
   setTimeout(function() {
     slideshow.style.display = 'block'; // 显示轮播
 
@@ -303,7 +303,7 @@
       currentIndex = (currentIndex + 1) % imageFiles.length;
       updateSlides();
     }, 3000);
-  }, 15000); // 15秒后开始（可根据实际动画时长调整）
+  }, 45000); // 45秒后开始（可根据实际动画时长调整）
 })();
 </script>
 
