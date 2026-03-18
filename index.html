@@ -2,234 +2,255 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Happy Birthday!!! :)</title>
-  <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
-  <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
-  <link rel="stylesheet" href="style/style.css">
-  <style>
-    .slideshow-container {
-      max-width: 600px;
-      position: relative;
-      clear: both;
-      margin: 60px auto 60px auto;
-      display: none;
-      overflow: hidden;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      z-index: 1;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Happy Birthday!!! :)</title>
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+        /* 轮播容器 */
+        .slideshow-container {
+            max-width: 600px;
+            position: relative;
+            clear: both;
+            margin: 60px auto;
+            display: none;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
 
-    .slides {
-      display: flex;
-      transition: transform 0.5s ease;
-    }
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
 
-    .slide {
-      min-width: 100%;
-      box-sizing: border-box;
-    }
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
 
-    .slide img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
+        .slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
 
-    .prev,
-    .next {
-      cursor: pointer;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 16px;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      background-color: rgba(0, 0, 0, 0.3);
-      border-radius: 0 3px 3px 0;
-      user-select: none;
-      text-decoration: none;
-      z-index: 10;
-    }
+        .prev,
+        .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            text-decoration: none;
+            z-index: 10;
+        }
 
-    .prev {
-      left: 0;
-      border-radius: 0 3px 3px 0;
-    }
+        .prev {
+            left: 0;
+            border-radius: 0 3px 3px 0;
+        }
 
-    .next {
-      right: 0;
-      border-radius: 3px 0 0 3px;
-    }
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
 
-    .prev:hover,
-    .next:hover {
-      background-color: rgba(0, 0, 0, 0.8);
-    }
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
 
-    .dots {
-      text-align: center;
-      padding: 10px 0;
-    }
+        .dots {
+            text-align: center;
+            padding: 10px 0;
+        }
 
-    .dot {
-      cursor: pointer;
-      height: 12px;
-      width: 12px;
-      margin: 0 4px;
-      background-color: #bbb;
-      border-radius: 50%;
-      display: inline-block;
-      transition: background-color 0.3s ease;
-    }
+        .dot {
+            cursor: pointer;
+            height: 12px;
+            width: 12px;
+            margin: 0 4px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
 
-    .dot.active,
-    .dot:hover {
-      background-color: #717171;
-    }
+        .dot.active,
+        .dot:hover {
+            background-color: #717171;
+        }
 
-    .balloons {
-      clear: both;
-      margin-top: 40px;
-      text-align: center;
-    }
+        .baloons {
+            display: none; /* 初始隐藏 */
+            text-align: center;
+            margin: 20px 0;
+        }
 
-    .final-content {
-      display: none;
-      text-align: center;
-      margin-top: 40px;
-    }
-  </style>
+        .content {
+            display: none; /* 初始隐藏 */
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
 </head>
 
 <body>
-  <div class="container">
-    <div class="one">
-      <h1>
-        <span data-node-name="greeting">Hey</span>
-        <span data-node-name="name">Esme</span>
-      </h1>
-      <p class="two" data-node-name="greetingText">I really like your name btw!</p>
+    <div class="container">
+        <div class="baloons" id="balloonContainer">
+            <!-- 气球部分 -->
+            <img src="img/ballon2.svg" alt="">
+            <img src="img/ballon1.svg" alt="">
+            <img src="img/ballon3.svg" alt="">
+            <img src="img/ballon1.svg" alt="">
+            <img src="img/ballon2.svg" alt="">
+            <img src="img/ballon3.svg" alt="">
+            <img src="img/ballon2.svg" alt="">
+            <img src="img/ballon3.svg" alt="">
+            <img src="img/ballon1.svg" alt="">
+            <img src="img/ballon2.svg" alt="">
+            <img src="img/ballon3.svg" alt="">
+            <img src="img/ballon2.svg" alt="">
+            <img src="img/ballon1.svg" alt="">
+            <img src="img/ballon3.svg" alt="">
+            <img src="img/ballon2.svg" alt="">
+            <img src="img/ballon3.svg" alt="">
+            <img src="img/ballon1.svg" alt="">
+            <img src="img/ballon2.svg" alt="">
+            <img src="img/ballon1.svg" alt="">
+            <img src="img/ballon3.svg" alt="">
+            <img src="img/ballon3.svg" alt="">
+            <img src="img/ballon1.svg" alt="">
+            <img src="img/ballon2.svg" alt="">
+            <img src="img/ballon3.svg" alt="">
+            <img src="img/ballon2.svg" alt="">
+            <img src="img/ballon1.svg" alt="">
+            <img src="img/ballon3.svg" alt="">
+            <img src="img/ballon2.svg" alt="">
+            <img src="img/ballon3.svg" alt="">
+            <img src="img/ballon1.svg" alt="">
+            <img src="img/ballon2.svg" alt="">
+            <img src="img/ballon1.svg" alt="">
+            <img src="img/ballon3.svg" alt="">
+        </div>
+
+        <div class="slideshow-container" id="slideshowContainer">
+            <div class="slides" id="slides"></div>
+            <a class="prev" onclick="changeSlide(-1)">❮</a>
+            <a class="next" onclick="changeSlide(1)">❯</a>
+            <div class="dots" id="dots"></div>
+        </div>
+
+        <div class="content" id="mainContent">
+            <img src="img/lydia.png.png" alt="" class="lydia-dp" id="lydiaImage">
+            <img src="img/hat.svg" alt="" class="hat">
+            <div class="wish">
+                <h3 class="wish-hbd">Happy Birthday!</h3>
+                <h5>May the js.prototypes always be with you! ;)</h5>
+            </div>
+            <p id="outroText">Okay, now come back and tell me if you liked it.</p>
+            <p id="replayText">Or click, if you want to watch it again.</p>
+            <p class="last-smile">:)</p>
+        </div>
     </div>
 
-    <div class="balloons">
-      <img src="img/ballon2.svg" alt="">
-      <img src="img/ballon1.svg" alt="">
-      <img src="img/ballon3.svg" alt="">
-      <img src="img/ballon1.svg" alt="">
-      <img src="img/ballon2.svg" alt="">
-      <img src="img/ballon3.svg" alt="">
-      <img src="img/ballon2.svg" alt="">
-      <img src="img/ballon3.svg" alt="">
-      <img src="img/ballon1.svg" alt="">
-      <img src="img/ballon2.svg" alt="">
-      <img src="img/ballon3.svg" alt="">
-      <img src="img/ballon2.svg" alt="">
-      <img src="img/ballon1.svg" alt="">
-      <img src="img/ballon3.svg" alt="">
-      <img src="img/ballon2.svg" alt="">
-      <img src="img/ballon3.svg" alt="">
-      <img src="img/ballon1.svg" alt="">
-      <img src="img/ballon2.svg" alt="">
-      <img src="img/ballon1.svg" alt="">
-      <img src="img/ballon3.svg" alt="">
-    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+    <script type="application/javascript">
+        (function() {
+            // 生成图片文件名列表（P1.jpg ~ P20.jpg）
+            const imageFiles = [];
+            for (let i = 1; i <= 20; i++) {
+                imageFiles.push(`img/P${i}.jpg`);
+            }
 
-    <div class="slideshow-container" id="slideshowContainer">
-      <div class="slides" id="slides"></div>
-      <a class="prev" onclick="changeSlide(-1)">❮</a>
-      <a class="next" onclick="changeSlide(1)">❯</a>
-      <div class="dots" id="dots"></div>
-    </div>
+            const slidesContainer = document.getElementById('slides');
+            const dotsContainer = document.getElementById('dots');
+            const slideshow = document.getElementById('slideshowContainer');
+            const balloonContainer = document.getElementById('balloonContainer');
+            const mainContent = document.getElementById('mainContent');
+            let currentIndex = 0;
+            let autoPlayInterval = null;
 
-    <div class="final-content" id="finalContent">
-      <img src="img/lydia.png" alt="" class="lydia-dp" data-node-name="imagePath">
-      <img src="img/hat.svg" alt="" class="hat">
-      <div class="wish">
-        <h3 class="wish-hbd" data-node-name="wishHeading">Happy Birthday!</h3>
-        <h5 data-node-name="wishText">May the js.prototypes always be with you! ;)</h5>
-      </div>
-      <p data-node-name="outroText">Okay, now come back and tell me if you liked it.</p>
-      <p id="replay" data-node-name="replayText">Or click, if you want to watch it again.</p>
-      <p class="last-smile" data-node-name="outroSmiley">:)</p>
-    </div>
-  </div>
+            // 动态创建幻灯片和指示点
+            imageFiles.forEach((src, index) => {
+                const slideDiv = document.createElement('div');
+                slideDiv.className = 'slide';
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = `Birthday photo ${index + 1}`;
+                slideDiv.appendChild(img);
+                slidesContainer.appendChild(slideDiv);
+
+                const dot = document.createElement('span');
+                dot.className = 'dot';
+                dot.setAttribute('onclick', `goToSlide(${index})`);
+                dotsContainer.appendChild(dot);
+            });
+
+            // 更新轮播位置和点状态
+            function updateSlides() {
+                slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+                const dots = document.querySelectorAll('.dot');
+                dots.forEach((dot, i) => {
+                    if (i === currentIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            window.changeSlide = function(direction) {
+                if (!slideshow.style.display || slideshow.style.display === 'none') return;
+                currentIndex += direction;
+                if (currentIndex < 0) currentIndex = imageFiles.length - 1;
+                if (currentIndex >= imageFiles.length) currentIndex = 0;
+                updateSlides();
+            };
+
+            window.goToSlide = function(index) {
+                if (!slideshow.style.display || slideshow.style.display === 'none') return;
+                currentIndex = index;
+                updateSlides();
+            };
+
+            updateSlides();
+
+            // 显示气球，轮播，和内容
+            setTimeout(function() {
+                balloonContainer.style.display = 'block'; // 显示气球
+                setTimeout(function() {
+                    balloonContainer.style.display = 'none'; // 隐藏气球
+                    slideshow.style.display = 'block'; // 显示轮播
+
+                    // 启动自动播放
+                    autoPlayInterval = setInterval(function() {
+                        currentIndex = (currentIndex + 1) % imageFiles.length;
+                        updateSlides();
+                    }, 3000);
+
+                    // 90秒后停止自动播放并显示祝福信息
+                    setTimeout(function() {
+                        clearInterval(autoPlayInterval);
+                        autoPlayInterval = null;
+                        slideshow.style.display = 'none'; // 隐藏轮播
+                        mainContent.style.display = 'block'; // 显示祝福内容
+                    }, 90000);
+                }, 2000); // 气球显示2秒钟后隐藏
+            }, 40000); // 40秒后开始
+        })();
+    </script>
 </body>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
-<script type="application/javascript" src="script/main.js"></script>
-
-<script>
-  (function() {
-    const imageFiles = [];
-    for (let i = 1; i <= 20; i++) {
-      imageFiles.push(`img/P${i}.jpg`);
-    }
-
-    const slidesContainer = document.getElementById('slides');
-    const dotsContainer = document.getElementById('dots');
-    const slideshow = document.getElementById('slideshowContainer');
-    const finalContent = document.getElementById('finalContent');
-    let currentIndex = 0;
-    let autoPlayInterval = null;
-
-    imageFiles.forEach((src, index) => {
-      const slideDiv = document.createElement('div');
-      slideDiv.className = 'slide';
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = `Birthday photo ${index + 1}`;
-      slideDiv.appendChild(img);
-      slidesContainer.appendChild(slideDiv);
-
-      const dot = document.createElement('span');
-      dot.className = 'dot';
-      dot.setAttribute('onclick', `goToSlide(${index})`);
-      dotsContainer.appendChild(dot);
-    });
-
-    function updateSlides() {
-      slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-      const dots = document.querySelectorAll('.dot');
-      dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentIndex);
-      });
-    }
-
-    window.changeSlide = function(direction) {
-      if (!slideshow.style.display || slideshow.style.display === 'none') return;
-      currentIndex = (currentIndex + direction + imageFiles.length) % imageFiles.length;
-      updateSlides();
-    };
-
-    window.goToSlide = function(index) {
-      if (!slideshow.style.display || slideshow.style.display === 'none') return;
-      currentIndex = index;
-      updateSlides();
-    };
-
-    updateSlides();
-
-    setTimeout(function() {
-      slideshow.style.display = 'block';
-
-      autoPlayInterval = setInterval(function() {
-        currentIndex = (currentIndex + 1) % imageFiles.length;
-        updateSlides();
-      }, 3000);
-
-      setTimeout(function() {
-        clearInterval(autoPlayInterval);
-        autoPlayInterval = null;
-
-        // 显示最终内容
-        finalContent.style.display = 'block';
-      }, 90000);
-    }, 40000);
-  })();
-</script>
 
 </html>
