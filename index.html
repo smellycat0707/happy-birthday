@@ -10,35 +10,43 @@
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
   <style>
-    /* Add some basic styles for the carousel */
-    .carousel {
+    .carousel { 
       display: flex;
-      overflow: hidden;
-      width: 100%;
+      overflow: hidden; 
+      width: 100%; 
+      margin: 20px 0; /* Add margin for spacing */
     }
 
-    .carousel-images {
-      display: flex;
-      transition: transform 0.5s ease;
+    .carousel-images { 
+      display: flex; 
+      transition: transform 0.5s ease; 
     }
 
-    .carousel-images img {
-      min-width: 100%;
-      height: auto;
+    .carousel-images img { 
+      min-width: 100%; 
+      height: auto; 
     }
 
-    .carousel-buttons {
-      text-align: center;
+    .carousel-buttons { 
+      text-align: center; 
+      position: absolute; 
+      bottom: 20px; 
+      left: 50%; 
+      transform: translateX(-50%); 
     }
 
-    .carousel-button {
-      cursor: pointer;
-      margin: 10px;
-      padding: 5px 10px;
-      background-color: #007BFF;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
+    .carousel-button { 
+      cursor: pointer; 
+      margin: 10px; 
+      padding: 5px 10px; 
+      background-color: #007BFF; 
+      color: #fff; 
+      border: none; 
+      border-radius: 5px; 
+    }
+
+    .hidden { 
+      display: none; /* Class to hide elements */ 
     }
   </style>
 </head>
@@ -110,7 +118,7 @@
     <!-- Image carousel ends here -->
 
     <div class="six">
-      <img src="img/lydia.png.png" alt="" class="lydia-dp" data-node-name="imagePath">
+      <img src="img/lydia2.png" alt="" class="lydia-dp" data-node-name="imagePath" id="lydiaImage">
       <img src="img/hat.svg" alt="" class="hat">
       <div class="wish">
         <h3 class="wish-hbd" data-node-name="wishHeading">Happy Birthday!</h3>
@@ -122,7 +130,6 @@
         <img src="img/ballon2.svg" alt="">
         <img src="img/ballon1.svg" alt="">
         <img src="img/ballon3.svg" alt="">
-        <!-- Other balloon images... -->
       </div>
     </div>
     <div class="eight">
@@ -131,7 +138,7 @@
       </svg>
       <!-- More SVG circles... -->
     </div>
-    <div class="nine">
+    <div class="nine hidden" id="finalText"> <!-- Initially hidden -->
       <p data-node-name="outroText">Okay, now come back and tell me if you liked it.</p>
       <p id="replay" data-node-name="replayText">Or click, if you want to watch it again.</p>
       <p class="last-smile" data-node-name="outroSmiley">:)</p>
@@ -161,6 +168,14 @@
     currentIndex = (currentIndex - 1 + totalImages) % totalImages;
     updateCarousel();
   }
+
+  // Function to handle the transition to the final text
+  function showFinalText() {
+    document.getElementById('lydiaImage').classList.add('hidden'); // Hide Lydia image
+    document.getElementById('finalText').classList.remove('hidden'); // Show final text
+  }
+
+  // Call showFinalText when needed. You can place this function call at the appropriate time in your logic.
 </script>
 
 </html>
