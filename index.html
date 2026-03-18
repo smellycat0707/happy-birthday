@@ -9,12 +9,13 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
-  <!-- 图片轮播样式（只添加轮播本身所需样式，未改动原有文字样式） -->
+  <!-- 图片轮播样式（左右箭头紧贴两端，指示点居中） -->
   <style>
     .slideshow-container {
       max-width: 600px;
       position: relative;
-      margin: 30px auto 30px auto; /* 上边距30px，与文字拉开距离；下边距30px与后续内容隔开 */
+      margin: 40px auto 30px auto;  /* 上边距拉开与文字距离，下边距与后续内容隔开 */
+      clear: both;                  /* 防止与上方浮动元素重叠 */
       overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -32,6 +33,7 @@
       height: auto;
       display: block;
     }
+    /* 左右箭头紧贴容器左右边缘 */
     .prev, .next {
       cursor: pointer;
       position: absolute;
@@ -47,13 +49,18 @@
       text-decoration: none;
       z-index: 10;
     }
+    .prev {
+      left: 0;                      /* 紧贴左边缘 */
+      border-radius: 0 3px 3px 0;
+    }
     .next {
-      right: 0;
+      right: 0;                      /* 紧贴右边缘 */
       border-radius: 3px 0 0 3px;
     }
     .prev:hover, .next:hover {
       background-color: rgba(0, 0, 0, 0.8);
     }
+    /* 指示点底部居中 */
     .dots {
       text-align: center;
       padding: 10px 0;
@@ -76,7 +83,7 @@
 
 <body>
   <div class="container">
-    <!-- 第1部分：Hey Esme 文字内容（完全保持原样，未添加任何额外样式） -->
+    <!-- 第1部分：Hey Esme 文字内容（完全保持原样，未做任何改动） -->
     <div class="one">
       <h1 class="one">
         <span data-node-name="greeting">Hey</span>
@@ -85,7 +92,7 @@
       <p class="two" data-node-name="greetingText">I really like your name btw!</p>
     </div>
 
-    <!-- 第2部分：图片轮播（插入在文字之后，通过margin-top与文字自然隔开） -->
+    <!-- 第2部分：图片轮播（紧接在文字之后，通过 clear:both 和 margin-top 确保不重叠） -->
     <div class="slideshow-container">
       <div class="slides" id="slides"></div>
       <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
@@ -93,7 +100,7 @@
       <div class="dots" id="dots"></div>
     </div>
 
-    <!-- 后续原有内容（保持不变，保留原始图片路径 lydia.png.png） -->
+    <!-- 后续原有内容（完全保持不变） -->
     <div class="three">
       <p data-node-name="text1">It's your birthday!!! :D</p>
     </div>
@@ -131,6 +138,7 @@
     </div>
     <div class="seven">
       <div class="baloons">
+        <!-- 气球图片列表（完全不变） -->
         <img src="img/ballon2.svg" alt="">
         <img src="img/ballon1.svg" alt="">
         <img src="img/ballon3.svg" alt="">
@@ -209,7 +217,7 @@
 <!-- 图片轮播 JavaScript（3秒延迟自动播放） -->
 <script>
 (function() {
-  // 生成图片文件名列表（P1.jpg ~ P20.jpg）
+  // 生成图片文件名列表（P1.jpg ~ P20.jpg），请确保图片已上传至 img 文件夹
   const imageFiles = [];
   for (let i = 1; i <= 20; i++) {
     imageFiles.push(`img/P${i}.jpg`);
@@ -218,7 +226,6 @@
   const slidesContainer = document.getElementById('slides');
   const dotsContainer = document.getElementById('dots');
   let currentIndex = 0;
-  let autoPlayInterval = null;
 
   // 动态创建幻灯片和指示点
   imageFiles.forEach((src, index) => {
@@ -270,7 +277,7 @@
 
   // 启动自动播放：3秒后开始，每3秒切换一张
   setTimeout(function() {
-    autoPlayInterval = setInterval(function() {
+    setInterval(function() {
       currentIndex = (currentIndex + 1) % imageFiles.length;
       updateSlides();
     }, 3000);
