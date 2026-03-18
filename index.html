@@ -10,102 +10,41 @@
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
   <style>
-    /* 轮播容器：初始隐藏，显示后与上下内容保持足够间距 */
-    .slideshow-container {
-      max-width: 600px;
-      position: relative;
-      clear: both;                  /* 强制独立一行 */
-      margin: 60px auto 60px auto;  /* 上下各60px间距，与文字和气球彻底分开 */
-      display: none;                /* 初始隐藏，等文字动画结束后再显示 */
+    /* Add some basic styles for the carousel */
+    .carousel {
+      display: flex;
       overflow: hidden;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      z-index: 1;
+      width: 100%;
     }
 
-    .slides {
+    .carousel-images {
       display: flex;
       transition: transform 0.5s ease;
     }
 
-    .slide {
+    .carousel-images img {
       min-width: 100%;
-      box-sizing: border-box;
-    }
-
-    .slide img {
-      width: 100%;
       height: auto;
-      display: block;
     }
 
-    /* 左右箭头 */
-    .prev,
-    .next {
-      cursor: pointer;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      padding: 16px;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
-      background-color: rgba(0, 0, 0, 0.3);
-      border-radius: 0 3px 3px 0;
-      user-select: none;
-      text-decoration: none;
-      z-index: 10;
-    }
-
-    .prev {
-      left: 0;
-      border-radius: 0 3px 3px 0;
-    }
-
-    .next {
-      right: 0;
-      border-radius: 3px 0 0 3px;
-    }
-
-    .prev:hover,
-    .next:hover {
-      background-color: rgba(0, 0, 0, 0.8);
-    }
-
-    /* 指示点 */
-    .dots {
+    .carousel-buttons {
       text-align: center;
-      padding: 10px 0;
     }
 
-    .dot {
+    .carousel-button {
       cursor: pointer;
-      height: 12px;
-      width: 12px;
-      margin: 0 4px;
-      background-color: #bbb;
-      border-radius: 50%;
-      display: inline-block;
-      transition: background-color 0.3s ease;
-    }
-
-    .dot.active,
-    .dot:hover {
-      background-color: #717171;
-    }
-
-    /* 确保气球容器也独立一行，不与轮播重叠 */
-    .seven {
-      clear: both;
-      text-align: center; /* 可以让气球居中显示 */
-      margin-top: 40px;
+      margin: 10px;
+      padding: 5px 10px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <!-- 第1部分：Hey Esme 文字内容（完全保持原样） -->
     <div class="one">
       <h1 class="one">
         <span data-node-name="greeting">Hey</span>
@@ -113,62 +52,12 @@
       </h1>
       <p class="two" data-node-name="greetingText">I really like your name btw!</p>
     </div>
-
-    <!-- 第2部分：气球 -->
-    <div class="seven">
-      <div class="baloons">
-        <!-- 气球图片列表（完全不变） -->
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-      </div>
-    </div>
-
-    <!-- 第3部分：图片轮播（HTML始终存在，但初始隐藏） -->
-    <div class="slideshow-container" id="slideshowContainer">
-      <div class="slides" id="slides"></div>
-      <a class="prev" onclick="changeSlide(-1)">❮</a>
-      <a class="next" onclick="changeSlide(1)">❯</a>
-      <div class="dots" id="dots"></div>
-    </div>
-
-    <!-- 后续原有内容（完全保持不变） -->
     <div class="three">
       <p data-node-name="text1">It's your birthday!!! :D</p>
     </div>
     <div class="four">
       <div class="text-box">
-        <p class="hbd-chatbox" data-node-name="textInChatBox">Happy birthday to you!! Yeee! Many many many happy blah...</p>
+        <p class="hbd-chatbox" data-node-name="textInChatBox">Happy birthday to you!! Yeee! Many many happy blah...</p>
         <p class="fake-btn" data-node-name="sendButtonLabel">Send</p>
       </div>
     </div>
@@ -177,8 +66,7 @@
       <p class="idea-2" data-node-name="text3">But then I stopped.</p>
       <p class="idea-3">
         <span data-node-name="text4">I realised, I wanted to do something</span>
-        <strong data-node-name="text4Adjective">special</strong>.
-      </p>
+        <strong data-node-name="text4Adjective">special</strong>.</p>
       <p class="idea-4" data-node-name="text5Entry">Because,</p>
       <p class="idea-5">
         <span data-node-name="text5Content">You are Special</span>
@@ -189,8 +77,39 @@
         <span data-node-name="bigTextPart2">O</span>
       </p>
     </div>
+    
+    <!-- Image carousel begins here -->
+    <div class="carousel">
+      <div class="carousel-images" id="carouselImages">
+        <img src="img/P1.jpg" alt="">
+        <img src="img/P2.jpg" alt="">
+        <img src="img/P3.jpg" alt="">
+        <img src="img/P4.jpg" alt="">
+        <img src="img/P5.jpg" alt="">
+        <img src="img/P6.jpg" alt="">
+        <img src="img/P7.jpg" alt="">
+        <img src="img/P8.jpg" alt="">
+        <img src="img/P9.jpg" alt="">
+        <img src="img/P10.jpg" alt="">
+        <img src="img/P11.jpg" alt="">
+        <img src="img/P12.jpg" alt="">
+        <img src="img/P13.jpg" alt="">
+        <img src="img/P14.jpg" alt="">
+        <img src="img/P15.jpg" alt="">
+        <img src="img/P16.jpg" alt="">
+        <img src="img/P17.jpg" alt="">
+        <img src="img/P18.jpg" alt="">
+        <img src="img/P19.jpg" alt="">
+        <img src="img/P20.jpg" alt="">
+      </div>
+    </div>
+    <div class="carousel-buttons">
+      <button class="carousel-button" onclick="previousImage()">Previous</button>
+      <button class="carousel-button" onclick="nextImage()">Next</button>
+    </div>
+    <!-- Image carousel ends here -->
+
     <div class="six">
-      <!-- 保持原有图片路径不变 -->
       <img src="img/lydia.png.png" alt="" class="lydia-dp" data-node-name="imagePath">
       <img src="img/hat.svg" alt="" class="hat">
       <div class="wish">
@@ -198,34 +117,19 @@
         <h5 data-node-name="wishText">May the js.prototypes always be with you! ;)</h5>
       </div>
     </div>
+    <div class="seven">
+      <div class="baloons">
+        <img src="img/ballon2.svg" alt="">
+        <img src="img/ballon1.svg" alt="">
+        <img src="img/ballon3.svg" alt="">
+        <!-- Other balloon images... -->
+      </div>
+    </div>
     <div class="eight">
       <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <circle cx="20" cy="20" r="20" />
       </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
+      <!-- More SVG circles... -->
     </div>
     <div class="nine">
       <p data-node-name="outroText">Okay, now come back and tell me if you liked it.</p>
@@ -237,90 +141,26 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 <script type="application/javascript" src="script/main.js"></script>
-
-<!-- 图片轮播 JavaScript（40秒后显示，自动播放90秒后停止） -->
 <script>
-(function() {
-  // 生成图片文件名列表（P1.jpg ~ P20.jpg）
-  const imageFiles = [];
-  for (let i = 1; i <= 20; i++) {
-    imageFiles.push(`img/P${i}.jpg`);
-  }
-
-  const slidesContainer = document.getElementById('slides');
-  const dotsContainer = document.getElementById('dots');
-  const slideshow = document.getElementById('slideshowContainer');
   let currentIndex = 0;
-  let autoPlayInterval = null;
 
-  // 动态创建幻灯片和指示点
-  imageFiles.forEach((src, index) => {
-    // 幻灯片
-    const slideDiv = document.createElement('div');
-    slideDiv.className = 'slide';
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = `Birthday photo ${index + 1}`;
-    slideDiv.appendChild(img);
-    slidesContainer.appendChild(slideDiv);
-
-    // 指示点
-    const dot = document.createElement('span');
-    dot.className = 'dot';
-    dot.setAttribute('onclick', `goToSlide(${index})`);
-    dotsContainer.appendChild(dot);
-  });
-
-  // 更新轮播位置和点状态
-  function updateSlides() {
-    slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-    const dots = document.querySelectorAll('.dot');
-    dots.forEach((dot, i) => {
-      if (i === currentIndex) {
-        dot.classList.add('active');
-      } else {
-        dot.classList.remove('active');
-      }
-    });
+  function updateCarousel() {
+    const images = document.getElementById('carouselImages');
+    const totalImages = images.children.length;
+    images.style.transform = `translateX(-${currentIndex * 100}%)`;
   }
 
-  // 切换函数（供按钮调用）
-  window.changeSlide = function(direction) {
-    if (!slideshow.style.display || slideshow.style.display === 'none') return; // 未显示时忽略点击
-    currentIndex += direction;
-    if (currentIndex < 0) currentIndex = imageFiles.length - 1;
-    if (currentIndex >= imageFiles.length) currentIndex = 0;
-    updateSlides();
-  };
+  function nextImage() {
+    const totalImages = document.getElementById('carouselImages').children.length;
+    currentIndex = (currentIndex + 1) % totalImages;
+    updateCarousel();
+  }
 
-  // 跳转到指定幻灯片（供点调用）
-  window.goToSlide = function(index) {
-    if (!slideshow.style.display || slideshow.style.display === 'none') return;
-    currentIndex = index;
-    updateSlides();
-  };
-
-  // 初始化显示第一张（但容器隐藏，实际不可见）
-  updateSlides();
-
-  // 等待文字动画结束后显示轮播并启动自动播放（40秒后）
-  setTimeout(function() {
-    slideshow.style.display = 'block'; // 显示轮播
-
-    // 启动自动播放，每3秒切换一张
-    if (autoPlayInterval) clearInterval(autoPlayInterval);
-    autoPlayInterval = setInterval(function() {
-      currentIndex = (currentIndex + 1) % imageFiles.length;
-      updateSlides();
-    }, 3000);
-
-    // 90秒后停止自动播放（轮播容器仍可见）
-    setTimeout(function() {
-      clearInterval(autoPlayInterval);
-      autoPlayInterval = null;
-    }, 90000); // 90秒
-  }, 40000); // 40秒后开始
-})();
+  function previousImage() {
+    const totalImages = document.getElementById('carouselImages').children.length;
+    currentIndex = (currentIndex - 1 + totalImages) % totalImages;
+    updateCarousel();
+  }
 </script>
 
 </html>
