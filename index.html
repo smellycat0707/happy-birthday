@@ -9,45 +9,6 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
-  <style>
-    .carousel {
-      display: flex;
-      overflow: hidden;
-      width: 100%;
-    }
-
-    .carousel-images {
-      display: flex;
-      transition: transform 0.5s ease;
-    }
-
-    .carousel-images img {
-      min-width: 100%;
-      height: auto;
-    }
-
-    .carousel-buttons {
-      text-align: center;
-      position: absolute; /* Position buttons absolute for better placement */
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .carousel-button {
-      cursor: pointer;
-      margin: 10px;
-      padding: 5px 10px;
-      background-color: #007BFF;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-    }
-
-    .hidden {
-      display: none; /* Class to hide elements */
-    }
-  </style>
 </head>
 
 <body>
@@ -84,40 +45,8 @@
         <span data-node-name="bigTextPart2">O</span>
       </p>
     </div>
-    
-    <!-- Image carousel begins here -->
-    <div class="carousel" id="carouselContainer">
-      <div class="carousel-images" id="carouselImages">
-        <img src="img/P1.jpg" alt="">
-        <img src="img/P2.jpg" alt="">
-        <img src="img/P3.jpg" alt="">
-        <img src="img/P4.jpg" alt="">
-        <img src="img/P5.jpg" alt="">
-        <img src="img/P6.jpg" alt="">
-        <img src="img/P7.jpg" alt="">
-        <img src="img/P8.jpg" alt="">
-        <img src="img/P9.jpg" alt="">
-        <img src="img/P10.jpg" alt="">
-        <img src="img/P11.jpg" alt="">
-        <img src="img/P12.jpg" alt="">
-        <img src="img/P13.jpg" alt="">
-        <img src="img/P14.jpg" alt="">
-        <img src="img/P15.jpg" alt="">
-        <img src="img/P16.jpg" alt="">
-        <img src="img/P17.jpg" alt="">
-        <img src="img/P18.jpg" alt="">
-        <img src="img/P19.jpg" alt="">
-        <img src="img/P20.jpg" alt="">
-      </div>
-    </div>
-    <div class="carousel-buttons">
-      <button class="carousel-button" onclick="previousImage()">Previous</button>
-      <button class="carousel-button" onclick="nextImage()">Next</button>
-    </div>
-    <!-- Image carousel ends here -->
-
     <div class="six">
-      <img src="img/lydia.png.png" alt="" class="lydia-dp" data-node-name="imagePath" id="lydiaImage">
+      <img src="img/lydia.png" alt="" class="lydia-dp" data-node-name="imagePath">
       <img src="img/hat.svg" alt="" class="hat">
       <div class="wish">
         <h3 class="wish-hbd" data-node-name="wishHeading">Happy Birthday!</h3>
@@ -126,18 +55,58 @@
     </div>
     <div class="seven">
       <div class="baloons">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
+        <img src="img/P1.jpg" alt="" class="carousel-image">
+        <img src="img/P2.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P3.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P4.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P5.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P6.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P7.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P8.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P9.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P10.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P11.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P12.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P13.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P14.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P15.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P16.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P17.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P18.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P19.jpg" alt="" class="carousel-image" style="display:none;">
+        <img src="img/P20.jpg" alt="" class="carousel-image" style="display:none;">
       </div>
     </div>
     <div class="eight">
       <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <circle cx="20" cy="20" r="20" />
       </svg>
-      <!-- More SVG circles... -->
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="20" />
+      </svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="20" />
+      </svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="20" />
+      </svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="20" />
+      </svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="20" />
+      </svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="20" />
+      </svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="20" />
+      </svg>
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="20" />
+      </svg>
     </div>
-    <div class="nine hidden" id="finalText"> <!-- Initially hidden -->
+    <div class="nine">
       <p data-node-name="outroText">Okay, now come back and tell me if you liked it.</p>
       <p id="replay" data-node-name="replayText">Or click, if you want to watch it again.</p>
       <p class="last-smile" data-node-name="outroSmiley">:)</p>
@@ -146,35 +115,18 @@
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
-<script type="application/javascript" src="script/main.js"></script>
 <script>
+  const images = document.querySelectorAll('.carousel-image');
   let currentIndex = 0;
 
-  function updateCarousel() {
-    const images = document.getElementById('carouselImages');
-    const totalImages = images.children.length;
-    images.style.transform = `translateX(-${currentIndex * 100}%)`;
+  function showNextImage() {
+    images[currentIndex].style.display = 'none';
+    currentIndex = (currentIndex + 1) % images.length;
+    images[currentIndex].style.display = 'block';
   }
 
-  function nextImage() {
-    const totalImages = document.getElementById('carouselImages').children.length;
-    currentIndex = (currentIndex + 1) % totalImages;
-    updateCarousel();
-  }
-
-  function previousImage() {
-    const totalImages = document.getElementById('carouselImages').children.length;
-    currentIndex = (currentIndex - 1 + totalImages) % totalImages;
-    updateCarousel();
-  }
-
-  // Function to handle the transition to the final text
-  function showFinalText() {
-    document.getElementById('lydiaImage').classList.add('hidden'); // Hide Lydia image
-    document.getElementById('finalText').classList.remove('hidden'); // Show final text
-  }
-
-  // Call showFinalText when needed. You can place this function call at the appropriate time in your logic.
+  setInterval(showNextImage, 3000); // 切换时间间隔为3秒
 </script>
+<script type="application/javascript" src="script/main.js"></script>
 
 </html>
