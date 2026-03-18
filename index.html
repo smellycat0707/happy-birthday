@@ -9,15 +9,15 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
-  <!-- 图片轮播样式（初始隐藏，左右箭头贴边） -->
+  <!-- 图片轮播样式（强化隔离，确保与文字/气球完全分开） -->
   <style>
-    /* 轮播容器：初始隐藏，等文字动画结束后再显示 */
+    /* 轮播容器：初始隐藏，显示后与上下内容保持足够间距 */
     .slideshow-container {
       max-width: 600px;
       position: relative;
-      clear: both;                  /* 独立一行 */
-      margin: 40px auto 30px auto;  /* 上下间距，显示时自然分开 */
-      display: none;                /* 初始隐藏 */
+      clear: both;                  /* 强制独立一行 */
+      margin: 60px auto 60px auto;  /* 上下各60px间距，与文字和气球彻底分开 */
+      display: none;                /* 初始隐藏，等文字动画结束后再显示 */
       overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -90,6 +90,12 @@
 
     .dot.active, .dot:hover {
       background-color: #717171;
+    }
+
+    /* 确保气球容器也独立一行，不与轮播重叠 */
+    .seven {
+      clear: both;
+      margin-top: 40px;
     }
   </style>
 </head>
@@ -227,7 +233,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 <script type="application/javascript" src="script/main.js"></script>
 
-<!-- 图片轮播 JavaScript（等待文字动画结束后显示并自动播放） -->
+<!-- 图片轮播 JavaScript（40秒后显示，自动播放90秒后停止） -->
 <script>
 (function() {
   // 生成图片文件名列表（P1.jpg ~ P20.jpg）
@@ -292,8 +298,7 @@
   // 初始化显示第一张（但容器隐藏，实际不可见）
   updateSlides();
 
-  // 等待文字动画结束后显示轮播并启动自动播放
-  // 原动画大约持续40秒以上，这里等待45秒后显示
+  // 等待文字动画结束后显示轮播并启动自动播放（40秒后）
   setTimeout(function() {
     slideshow.style.display = 'block'; // 显示轮播
 
@@ -303,7 +308,13 @@
       currentIndex = (currentIndex + 1) % imageFiles.length;
       updateSlides();
     }, 3000);
-  }, 45000); // 45秒后开始（可根据实际动画时长调整）
+
+    // 90秒后停止自动播放（轮播容器仍可见）
+    setTimeout(function() {
+      clearInterval(autoPlayInterval);
+      autoPlayInterval = null;
+    }, 90000); // 90秒
+  }, 40000); // 40秒后开始
 })();
 </script>
 
