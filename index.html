@@ -9,6 +9,43 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
+  <style>
+    .carousel {
+      position: relative;
+      width: 100%;
+      height: 100vh; /* Fill the viewport height */
+      overflow: hidden;
+    }
+
+    .carousel-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: auto;
+      height: 100%;
+      max-width: none;
+      display: none; /* Initially hidden */
+    }
+
+    .carousel-image.active {
+      display: block; /* Show only the active image */
+      transition: opacity 1s ease; /* Add fade effect */
+      opacity: 1;
+    }
+
+    .final-image {
+      display: none; /* Initially hidden */
+      text-align: center;
+      margin-top: 20px; /* Optional margin */
+    }
+
+    .final-text {
+      display: none; /* Initially hidden */
+      text-align: center;
+      margin-top: 20px; /* Optional margin */
+    }
+  </style>
 </head>
 
 <body>
@@ -45,37 +82,39 @@
         <span data-node-name="bigTextPart2">O</span>
       </p>
     </div>
+    
+    </div>
     <div class="six">
-      <img src="img/lydia.png" alt="" class="lydia-dp" data-node-name="imagePath">
+      <div class="carousel">
+        <img src="img/P1.jpg" alt="" class="carousel-image active">
+        <img src="img/P2.jpg" alt="" class="carousel-image">
+        <img src="img/P3.jpg" alt="" class="carousel-image">
+        <img src="img/P4.jpg" alt="" class="carousel-image">
+        <img src="img/P5.jpg" alt="" class="carousel-image">
+        <img src="img/P6.jpg" alt="" class="carousel-image">
+        <img src="img/P7.jpg" alt="" class="carousel-image">
+        <img src="img/P8.jpg" alt="" class="carousel-image">
+        <img src="img/P9.jpg" alt="" class="carousel-image">
+        <img src="img/P10.jpg" alt="" class="carousel-image">
+        <img src="img/P11.jpg" alt="" class="carousel-image">
+        <img src="img/P12.jpg" alt="" class="carousel-image">
+        <img src="img/P13.jpg" alt="" class="carousel-image">
+        <img src="img/P14.jpg" alt="" class="carousel-image">
+        <img src="img/P15.jpg" alt="" class="carousel-image">
+        <img src="img/P16.jpg" alt="" class="carousel-image">
+        <img src="img/P17.jpg" alt="" class="carousel-image">
+        <img src="img/P18.jpg" alt="" class="carousel-image">
+        <img src="img/P19.jpg" alt="" class="carousel-image">
+        <img src="img/P20.jpg" alt="" class="carousel-image">
+      </div>
+      <div class="seven">
+      <img src="img/lydia.png.png" alt="" class="lydia-dp" data-node-name="imagePath">
       <img src="img/hat.svg" alt="" class="hat">
       <div class="wish">
         <h3 class="wish-hbd" data-node-name="wishHeading">Happy Birthday!</h3>
         <h5 data-node-name="wishText">May the js.prototypes always be with you! ;)</h5>
       </div>
-    </div>
-    <div class="seven">
-      <div class="baloons">
-        <img src="img/P1.jpg" alt="" class="carousel-image">
-        <img src="img/P2.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P3.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P4.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P5.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P6.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P7.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P8.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P9.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P10.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P11.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P12.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P13.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P14.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P15.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P16.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P17.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P18.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P19.jpg" alt="" class="carousel-image" style="display:none;">
-        <img src="img/P20.jpg" alt="" class="carousel-image" style="display:none;">
-      </div>
+        
     </div>
     <div class="eight">
       <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
@@ -106,7 +145,10 @@
         <circle cx="20" cy="20" r="20" />
       </svg>
     </div>
-    <div class="nine">
+    <div class="final-image" id="finalImage">
+      <img src="img/lydia.png" alt="Lydia" style="max-width: 100%; height: auto;">
+    </div>
+    <div class="final-text">
       <p data-node-name="outroText">Okay, now come back and tell me if you liked it.</p>
       <p id="replay" data-node-name="replayText">Or click, if you want to watch it again.</p>
       <p class="last-smile" data-node-name="outroSmiley">:)</p>
@@ -117,12 +159,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 <script>
   const images = document.querySelectorAll('.carousel-image');
+  const finalImageContainer = document.getElementById('finalImage');
+  const finalTextContainer = document.querySelector('.final-text');
   let currentIndex = 0;
+  const totalImages = images.length;
 
   function showNextImage() {
-    images[currentIndex].style.display = 'none';
-    currentIndex = (currentIndex + 1) % images.length;
-    images[currentIndex].style.display = 'block';
+    images[currentIndex].classList.remove('active');
+    currentIndex = (currentIndex + 1) % totalImages;
+    
+    if (currentIndex === 0) {
+      // 轮播结束后隐藏轮播图并显示最后的图片和文字
+      setTimeout(() => {
+        finalImageContainer.style.display = 'block'; // Show the final image
+        finalTextContainer.style.display = 'block'; // Show the final text
+      }, 1000); // Adjust the delay for the last image to appear after the last transition
+    }
+
+    images[currentIndex].classList.add('active');
   }
 
   setInterval(showNextImage, 3000); // 切换时间间隔为3秒
