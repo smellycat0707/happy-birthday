@@ -9,15 +9,15 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
-  <!-- 图片轮播样式（强化隔离，确保与文字/气球完全分开） -->
+  <!-- 图片轮播样式（强化隔离） -->
   <style>
     /* 轮播容器：初始隐藏，显示后与上下内容保持足够间距 */
     .slideshow-container {
       max-width: 600px;
       position: relative;
-      clear: both;                  /* 强制独立一行 */
-      margin: 60px auto 60px auto;  /* 上下各60px间距，与文字和气球彻底分开 */
-      display: none;                /* 初始隐藏，等文字动画结束后再显示 */
+      clear: both;
+      margin: 60px auto 60px auto;
+      display: none;                /* 初始隐藏，40秒后显示 */
       overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -40,7 +40,7 @@
       display: block;
     }
 
-    /* 左右箭头分别紧贴左右边缘 */
+    /* 左右箭头紧贴左右边缘 */
     .prev, .next {
       cursor: pointer;
       position: absolute;
@@ -91,12 +91,6 @@
     .dot.active, .dot:hover {
       background-color: #717171;
     }
-
-    /* 确保气球容器也独立一行，不与轮播重叠 */
-    .seven {
-      clear: both;
-      margin-top: 40px;
-    }
   </style>
 </head>
 
@@ -111,7 +105,7 @@
       <p class="two" data-node-name="greetingText">I really like your name btw!</p>
     </div>
 
-    <!-- 第2部分：图片轮播（HTML始终存在，但初始隐藏） -->
+    <!-- 第2部分：图片轮播（初始隐藏） -->
     <div class="slideshow-container" id="slideshowContainer">
       <div class="slides" id="slides"></div>
       <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
@@ -119,113 +113,114 @@
       <div class="dots" id="dots"></div>
     </div>
 
-    <!-- 后续原有内容（完全保持不变） -->
-    <div class="three">
-      <p data-node-name="text1">It's your birthday!!! :D</p>
-    </div>
-    <div class="four">
-      <div class="text-box">
-        <p class="hbd-chatbox" data-node-name="textInChatBox">Happy birthday to you!! Yeee! Many many many happy blah...</p>
-        <p class="fake-btn" data-node-name="sendButtonLabel">Send</p>
+    <!-- 第3部分：后续所有内容（初始隐藏，轮播结束后显示） -->
+    <div id="afterSlidesContent" style="display: none;">
+      <div class="three">
+        <p data-node-name="text1">It's your birthday!!! :D</p>
       </div>
-    </div>
-    <div class="five">
-      <p class="idea-1" data-node-name="text2">That's what I was going to do.</p>
-      <p class="idea-2" data-node-name="text3">But then I stopped.</p>
-      <p class="idea-3">
-        <span data-node-name="text4">I realised, I wanted to do something</span>
-        <strong data-node-name="text4Adjective">special</strong>.
-      </p>
-      <p class="idea-4" data-node-name="text5Entry">Because,</p>
-      <p class="idea-5">
-        <span data-node-name="text5Content">You are Special</span>
-        <span class="smiley" data-node-name="smiley">:)</span>
-      </p>
-      <p class="idea-6">
-        <span data-node-name="bigTextPart1">S</span>
-        <span data-node-name="bigTextPart2">O</span>
-      </p>
-    </div>
-    <div class="six">
-      <!-- 保持原有图片路径不变 -->
-      <img src="img/lydia.png.png" alt="" class="lydia-dp" data-node-name="imagePath">
-      <img src="img/hat.svg" alt="" class="hat">
-      <div class="wish">
-        <h3 class="wish-hbd" data-node-name="wishHeading">Happy Birthday!</h3>
-        <h5 data-node-name="wishText">May the js.prototypes always be with you! ;)</h5>
+      <div class="four">
+        <div class="text-box">
+          <p class="hbd-chatbox" data-node-name="textInChatBox">Happy birthday to you!! Yeee! Many many many happy blah...</p>
+          <p class="fake-btn" data-node-name="sendButtonLabel">Send</p>
+        </div>
       </div>
-    </div>
-    <div class="seven">
-      <div class="baloons">
-        <!-- 气球图片列表（完全不变） -->
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon2.svg" alt="">
-        <img src="img/ballon1.svg" alt="">
-        <img src="img/ballon3.svg" alt="">
+      <div class="five">
+        <p class="idea-1" data-node-name="text2">That's what I was going to do.</p>
+        <p class="idea-2" data-node-name="text3">But then I stopped.</p>
+        <p class="idea-3">
+          <span data-node-name="text4">I realised, I wanted to do something</span>
+          <strong data-node-name="text4Adjective">special</strong>.
+        </p>
+        <p class="idea-4" data-node-name="text5Entry">Because,</p>
+        <p class="idea-5">
+          <span data-node-name="text5Content">You are Special</span>
+          <span class="smiley" data-node-name="smiley">:)</span>
+        </p>
+        <p class="idea-6">
+          <span data-node-name="bigTextPart1">S</span>
+          <span data-node-name="bigTextPart2">O</span>
+        </p>
       </div>
-    </div>
-    <div class="eight">
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="20" />
-      </svg>
-    </div>
-    <div class="nine">
-      <p data-node-name="outroText">Okay, now come back and tell me if you liked it.</p>
-      <p id="replay" data-node-name="replayText">Or click, if you want to watch it again.</p>
-      <p class="last-smile" data-node-name="outroSmiley">:)</p>
+      <div class="six">
+        <img src="img/lydia.png.png" alt="" class="lydia-dp" data-node-name="imagePath">
+        <img src="img/hat.svg" alt="" class="hat">
+        <div class="wish">
+          <h3 class="wish-hbd" data-node-name="wishHeading">Happy Birthday!</h3>
+          <h5 data-node-name="wishText">May the js.prototypes always be with you! ;)</h5>
+        </div>
+      </div>
+      <div class="seven">
+        <div class="baloons">
+          <!-- 气球图片列表（完全不变） -->
+          <img src="img/ballon2.svg" alt="">
+          <img src="img/ballon1.svg" alt="">
+          <img src="img/ballon3.svg" alt="">
+          <img src="img/ballon1.svg" alt="">
+          <img src="img/ballon2.svg" alt="">
+          <img src="img/ballon3.svg" alt="">
+          <img src="img/ballon2.svg" alt="">
+          <img src="img/ballon3.svg" alt="">
+          <img src="img/ballon1.svg" alt="">
+          <img src="img/ballon2.svg" alt="">
+          <img src="img/ballon3.svg" alt="">
+          <img src="img/ballon2.svg" alt="">
+          <img src="img/ballon1.svg" alt="">
+          <img src="img/ballon3.svg" alt="">
+          <img src="img/ballon2.svg" alt="">
+          <img src="img/ballon3.svg" alt="">
+          <img src="img/ballon1.svg" alt="">
+          <img src="img/ballon2.svg" alt="">
+          <img src="img/ballon1.svg" alt="">
+          <img src="img/ballon3.svg" alt="">
+          <img src="img/ballon3.svg" alt="">
+          <img src="img/ballon1.svg" alt="">
+          <img src="img/ballon2.svg" alt="">
+          <img src="img/ballon3.svg" alt="">
+          <img src="img/ballon2.svg" alt="">
+          <img src="img/ballon1.svg" alt="">
+          <img src="img/ballon3.svg" alt="">
+          <img src="img/ballon2.svg" alt="">
+          <img src="img/ballon3.svg" alt="">
+          <img src="img/ballon1.svg" alt="">
+          <img src="img/ballon2.svg" alt="">
+          <img src="img/ballon1.svg" alt="">
+          <img src="img/ballon3.svg" alt="">
+        </div>
+      </div>
+      <div class="eight">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="20" />
+        </svg>
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="20" />
+        </svg>
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="20" />
+        </svg>
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="20" />
+        </svg>
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="20" />
+        </svg>
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="20" />
+        </svg>
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="20" />
+        </svg>
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="20" />
+        </svg>
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="20" />
+        </svg>
+      </div>
+      <div class="nine">
+        <p data-node-name="outroText">Okay, now come back and tell me if you liked it.</p>
+        <p id="replay" data-node-name="replayText">Or click, if you want to watch it again.</p>
+        <p class="last-smile" data-node-name="outroSmiley">:)</p>
+      </div>
     </div>
   </div>
 </body>
@@ -233,7 +228,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 <script type="application/javascript" src="script/main.js"></script>
 
-<!-- 图片轮播 JavaScript（40秒后显示，自动播放90秒后停止） -->
+<!-- 图片轮播 JavaScript（40秒后显示，播放完20张后显示后续内容） -->
 <script>
 (function() {
   // 生成图片文件名列表（P1.jpg ~ P20.jpg）
@@ -245,8 +240,10 @@
   const slidesContainer = document.getElementById('slides');
   const dotsContainer = document.getElementById('dots');
   const slideshow = document.getElementById('slideshowContainer');
+  const afterContent = document.getElementById('afterSlidesContent');
   let currentIndex = 0;
   let autoPlayInterval = null;
+  let playCount = 0; // 记录已播放的图片数量（用于判断是否完成一轮）
 
   // 动态创建幻灯片和指示点
   imageFiles.forEach((src, index) => {
@@ -286,6 +283,7 @@
     if (currentIndex < 0) currentIndex = imageFiles.length - 1;
     if (currentIndex >= imageFiles.length) currentIndex = 0;
     updateSlides();
+    // 手动切换不计入自动播放计数，不影响轮播结束逻辑
   };
 
   // 跳转到指定幻灯片（供点调用）
@@ -302,18 +300,24 @@
   setTimeout(function() {
     slideshow.style.display = 'block'; // 显示轮播
 
-    // 启动自动播放，每3秒切换一张
+    // 启动自动播放，每3秒切换一张，并计数
     if (autoPlayInterval) clearInterval(autoPlayInterval);
     autoPlayInterval = setInterval(function() {
+      // 切换到下一张
       currentIndex = (currentIndex + 1) % imageFiles.length;
       updateSlides();
-    }, 3000);
+      playCount++;
 
-    // 90秒后停止自动播放（轮播容器仍可见）
-    setTimeout(function() {
-      clearInterval(autoPlayInterval);
-      autoPlayInterval = null;
-    }, 90000); // 90秒
+      // 当播放完20张（即一轮结束）时，清除定时器，显示后续内容，隐藏轮播
+      if (playCount >= imageFiles.length) {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = null;
+        // 显示后续内容
+        afterContent.style.display = 'block';
+        // 隐藏轮播容器（可选）
+        slideshow.style.display = 'none';
+      }
+    }, 3000); // 每3秒切换
   }, 40000); // 40秒后开始
 })();
 </script>
