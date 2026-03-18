@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
     <link rel="stylesheet" href="style/style.css">
+
     <style>
         /* 轮播容器 */
         .slideshow-container {
@@ -160,96 +161,120 @@
                 <h5>May the js.prototypes always be with you! ;)</h5>
             </div>
             <p id="outroText">Okay, now come back and tell me if you liked it.</p>
-            <p id="replayText">Or click, if you want to watch it again.</p>
+            <p id="replay" data-node-name="replayText">Or click, if you want to watch it again.</p>
             <p class="last-smile">:)</p>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
     <script type="application/javascript">
-        (function() {
-            // 生成图片文件名列表（P1.jpg ~ P20.jpg）
-            const imageFiles = [];
-            for (let i = 1; i <= 20; i++) {
-                imageFiles.push(`img/P${i}.jpg`);
-            }
+        const fetchData = () => {
+            fetch("customize.json")
+                .then(data => data.json())
+                .then(data => {
+                    const dataArr = Object.keys(data);
+                    dataArr.map(customData => {
+                        if (data[customData] !== "") {
+                            if (customData === "imagePath") {
+                                document
+                                    .querySelector(`[data-node-name*="${customData}"]`)
+                                    .setAttribute("src", data[customData]);
+                            } else {
+                                document.querySelector(`[data-node-name*="${customData}"]`).innerText = data[customData];
+                            }
+                        }
 
-            const slidesContainer = document.getElementById('slides');
-            const dotsContainer = document.getElementById('dots');
-            const slideshow = document.getElementById('slideshowContainer');
-            const balloonContainer = document.getElementById('balloonContainer');
-            const mainContent = document.getElementById('mainContent');
-            let currentIndex = 0;
-            let autoPlayInterval = null;
-
-            // 动态创建幻灯片和指示点
-            imageFiles.forEach((src, index) => {
-                const slideDiv = document.createElement('div');
-                slideDiv.className = 'slide';
-                const img = document.createElement('img');
-                img.src = src;
-                img.alt = `Birthday photo ${index + 1}`;
-                slideDiv.appendChild(img);
-                slidesContainer.appendChild(slideDiv);
-
-                const dot = document.createElement('span');
-                dot.className = 'dot';
-                dot.setAttribute('onclick', `goToSlide(${index})`);
-                dotsContainer.appendChild(dot);
-            });
-
-            // 更新轮播位置和点状态
-            function updateSlides() {
-                slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-                const dots = document.querySelectorAll('.dot');
-                dots.forEach((dot, i) => {
-                    if (i === currentIndex) {
-                        dot.classList.add('active');
-                    } else {
-                        dot.classList.remove('active');
-                    }
+                        // 检查是否迭代完成
+                        if (dataArr.length === dataArr.indexOf(customData) + 1) {
+                            animationTimeline();
+                        }
+                    });
                 });
-            }
+        };
 
-            window.changeSlide = function(direction) {
-                if (!slideshow.style.display || slideshow.style.display === 'none') return;
-                currentIndex += direction;
-                if (currentIndex < 0) currentIndex = imageFiles.length - 1;
-                if (currentIndex >= imageFiles.length) currentIndex = 0;
-                updateSlides();
-            };
+        // 动画时间线
+        const animationTimeline = () => {
+            const tl = new TimelineMax();
 
-            window.goToSlide = function(index) {
-                if (!slideshow.style.display || slideshow.style.display === 'none') return;
-                currentIndex = index;
-                updateSlides();
-            };
+            // 动画内容
+            tl.to(".container", 0.1, { visibility: "visible" })
+              .from("#balloonContainer", 1, { opacity: 0, y: 50 }) // 气球动画
+              .to("#balloonContainer", 1, { opacity: 0, y: 50, delay: 2 })
+              .from("#slideshowContainer", 1, { opacity: 0 }) // 轮播动画
+              .to("#slideshowContainer", 1, { display: "block", opacity: 1 })
+              .staggerFromTo("#slides img", 1, { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1 }, 0.2, "+=1")
+              .to("#slideshowContainer", 1, { display: "none", opacity: 0 })
+              .from("#mainContent", 1, { scale: 0.5, opacity: 0 }); // 祝福信息的动画
 
+            // 添加点击重播事件
+            const replyBtn = document.getElementById("replay");
+            replyBtn.addEventListener("click", () => {
+                tl.restart();
+            });
+        };
+
+        // 轮播逻辑
+        const imageFiles = [];
+        for (let i = 1; i <= 20; i++) {
+            imageFiles.push(`img/P${i}.jpg`);
+        }
+
+        const slidesContainer = document.getElementById('slides');
+        const dotsContainer = document.getElementById('dots');
+        let currentIndex = 0;
+        let autoPlayInterval = null;
+
+        // 动态创建轮播幻灯片和指示点
+        imageFiles.forEach((src, index) => {
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'slide';
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `Birthday photo ${index + 1}`;
+            slideDiv.appendChild(img);
+            slidesContainer.appendChild(slideDiv);
+
+            const dot = document.createElement('span');
+            dot.className = 'dot';
+            dot.setAttribute('onclick', `goToSlide(${index})`);
+            dotsContainer.appendChild(dot);
+        });
+
+        // 更新轮播
+        const updateSlides = () => {
+            slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentIndex);
+            });
+        };
+
+        // 切换幻灯片
+        window.changeSlide = function(direction) {
+            currentIndex = (currentIndex + direction + imageFiles.length) % imageFiles.length;
             updateSlides();
+        };
 
-            // 显示气球，轮播，和内容
-            setTimeout(function() {
-                balloonContainer.style.display = 'block'; // 显示气球
-                setTimeout(function() {
-                    balloonContainer.style.display = 'none'; // 隐藏气球
-                    slideshow.style.display = 'block'; // 显示轮播
+        // 跳转到指定幻灯片
+        window.goToSlide = function(index) {
+            currentIndex = index;
+            updateSlides();
+        };
 
-                    // 启动自动播放
-                    autoPlayInterval = setInterval(function() {
-                        currentIndex = (currentIndex + 1) % imageFiles.length;
-                        updateSlides();
-                    }, 3000);
+        // 启动应用
+        fetchData();
 
-                    // 90秒后停止自动播放并显示祝福信息
-                    setTimeout(function() {
-                        clearInterval(autoPlayInterval);
-                        autoPlayInterval = null;
-                        slideshow.style.display = 'none'; // 隐藏轮播
-                        mainContent.style.display = 'block'; // 显示祝福内容
-                    }, 90000);
-                }, 2000); // 气球显示2秒钟后隐藏
-            }, 40000); // 40秒后开始
-        })();
+        setTimeout(() => {
+            document.getElementById('balloonContainer').style.display = 'block'; // 显示气球
+            setTimeout(() => {
+                document.getElementById('balloonContainer').style.display = 'none'; // 隐藏气球后显示轮播
+                document.getElementById('slideshowContainer').style.display = 'block';
+                autoPlayInterval = setInterval(() => {
+                    currentIndex = (currentIndex + 1) % imageFiles.length;
+                    updateSlides();
+                }, 3000);
+            }, 2000);
+        }, 40000); // 40秒后启动
     </script>
 </body>
 
