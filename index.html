@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -91,9 +90,19 @@
     .dot.active, .dot:hover {
       background-color: #717171;
     }
+
+    /* 后续内容块通用上边距，确保顺序独立 */
+    .three, .four, .five, .six, .eight, .nine {
+      clear: both;
+      margin-top: 30px;
+    }
+
+    /* 让最后两行文字整体上移，与轮播图片之间的视觉距离更近，同时保留适当间隔 */
+    .nine {
+      margin-top: 15px;   /* 从30px减为15px，使结尾文字更紧凑，但依然保留清晰间隔 */
+    }
   </style>
 </head>
-
 <body>
   <div class="container">
     <!-- 第1部分：Hey Esme 文字内容（完全保持原样） -->
@@ -108,8 +117,8 @@
     <!-- 第2部分：图片轮播（HTML始终存在，但初始隐藏） -->
     <div class="slideshow-container" id="slideshowContainer">
       <div class="slides" id="slides"></div>
-      <a class="prev" onclick="changeSlide(-1)">❮</a>
-      <a class="next" onclick="changeSlide(1)">❯</a>
+      <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+      <a class="next" onclick="changeSlide(1)">&#10095;</a>
       <div class="dots" id="dots"></div>
     </div>
 
@@ -242,36 +251,23 @@
   let currentIndex = 0;
   let autoPlayInterval = null;
 
-  // 预加载图片
-  const preloadImages = (imageArray) => {
-    return Promise.all(imageArray.map(src => {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.src = src;
-        img.onload = resolve; // 图片加载完成时调用resolve
-      });
-    }));
-  };
-
   // 动态创建幻灯片和指示点
-  const createSlidesAndDots = () => {
-    imageFiles.forEach((src, index) => {
-      // 幻灯片
-      const slideDiv = document.createElement('div');
-      slideDiv.className = 'slide';
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = `Birthday photo ${index + 1}`;
-      slideDiv.appendChild(img);
-      slidesContainer.appendChild(slideDiv);
+  imageFiles.forEach((src, index) => {
+    // 幻灯片
+    const slideDiv = document.createElement('div');
+    slideDiv.className = 'slide';
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = `Birthday photo ${index + 1}`;
+    slideDiv.appendChild(img);
+    slidesContainer.appendChild(slideDiv);
 
-      // 指示点
-      const dot = document.createElement('span');
-      dot.className = 'dot';
-      dot.setAttribute('onclick', `goToSlide(${index})`);
-      dotsContainer.appendChild(dot);
-    });
-  };
+    // 指示点
+    const dot = document.createElement('span');
+    dot.className = 'dot';
+    dot.setAttribute('onclick', `goToSlide(${index})`);
+    dotsContainer.appendChild(dot);
+  });
 
   // 更新轮播位置和点状态
   function updateSlides() {
@@ -303,22 +299,20 @@
   };
 
   // 初始化显示第一张（但容器隐藏，实际不可见）
-  createSlidesAndDots();
+  updateSlides();
 
-  // 等待图片预加载完成
-  preloadImages(imageFiles).then(() => {
-    // 等待文字动画结束后显示轮播并启动自动播放
-    setTimeout(function() {
-      slideshow.style.display = 'block'; // 显示轮播
+  // 等待文字动画结束后显示轮播并启动自动播放
+  // 原动画大约持续40秒以上，这里等待45秒后显示
+  setTimeout(function() {
+    slideshow.style.display = 'block'; // 显示轮播
 
-      // 启动自动播放，每5秒切换一张
-      if (autoPlayInterval) clearInterval(autoPlayInterval);
-      autoPlayInterval = setInterval(function() {
-        currentIndex = (currentIndex + 1) % imageFiles.length;
-        updateSlides();
-      }, 5000); // 5秒切换一次
-    }, 45000); // 45秒后开始（可根据实际动画时长调整）
-  });
+    // 启动自动播放，每3秒切换一张
+    if (autoPlayInterval) clearInterval(autoPlayInterval);
+    autoPlayInterval = setInterval(function() {
+      currentIndex = (currentIndex + 1) % imageFiles.length;
+      updateSlides();
+    }, 3000);
+  }, 45000); // 45秒后开始（可根据实际动画时长调整）
 })();
 </script>
 
