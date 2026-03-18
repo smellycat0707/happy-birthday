@@ -9,10 +9,86 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
+  <!-- ===== 图片轮播样式 ===== -->
+  <style>
+    .slideshow-container {
+      max-width: 600px;
+      position: relative;
+      margin: 30px auto;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .slide {
+      min-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 16px;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 0 3px 3px 0;
+      user-select: none;
+      text-decoration: none;
+      z-index: 10;
+    }
+
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .dots {
+      text-align: center;
+      padding: 10px 0;
+    }
+
+    .dot {
+      cursor: pointer;
+      height: 12px;
+      width: 12px;
+      margin: 0 4px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .dot.active,
+    .dot:hover {
+      background-color: #717171;
+    }
+  </style>
 </head>
 
 <body>
   <div class="container">
+    <!-- 第一部分：Hey Esme 祝福内容 -->
     <div class="one">
       <h1 class="one">
         <span data-node-name="greeting">Hey</span>
@@ -20,6 +96,17 @@
       </h1>
       <p class="two" data-node-name="greetingText">I really like your name btw!</p>
     </div>
+
+    <!-- ===== 插入的图片轮播 ===== -->
+    <div class="slideshow-container">
+      <div class="slides" id="slides"></div>
+      <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+      <a class="next" onclick="changeSlide(1)">&#10095;</a>
+      <div class="dots" id="dots"></div>
+    </div>
+    <!-- ===== 轮播结束 ===== -->
+
+    <!-- 原有其他内容（保持不变） -->
     <div class="three">
       <p data-node-name="text1">It's your birthday!!! :D</p>
     </div>
@@ -34,7 +121,8 @@
       <p class="idea-2" data-node-name="text3">But then I stopped.</p>
       <p class="idea-3">
         <span data-node-name="text4">I realised, I wanted to do something</span>
-        <strong data-node-name="text4Adjective">special</strong>.</p>
+        <strong data-node-name="text4Adjective">special</strong>.
+      </p>
       <p class="idea-4" data-node-name="text5Entry">Because,</p>
       <p class="idea-5">
         <span data-node-name="text5Content">You are Special</span>
@@ -46,7 +134,8 @@
       </p>
     </div>
     <div class="six">
-      <img src="img/lydia.png.png" alt="" class="lydia-dp" data-node-name="imagePath">
+      <!-- 修复图片文件名（原为 lydia.png.png） -->
+      <img src="img/lydia.png" alt="" class="lydia-dp" data-node-name="imagePath">
       <img src="img/hat.svg" alt="" class="hat">
       <div class="wish">
         <h3 class="wish-hbd" data-node-name="wishHeading">Happy Birthday!</h3>
@@ -129,5 +218,71 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 <script type="application/javascript" src="script/main.js"></script>
+
+<!-- ===== 图片轮播 JavaScript ===== -->
+<script>
+(function() {
+  // 生成图片文件名列表（P1.jpg ~ P20.jpg）
+  const imageFiles = [];
+  for (let i = 1; i <= 20; i++) {
+    imageFiles.push(`img/P${i}.jpg`);
+  }
+
+  const slidesContainer = document.getElementById('slides');
+  const dotsContainer = document.getElementById('dots');
+  let currentIndex = 0;
+
+  // 动态创建幻灯片和指示点
+  imageFiles.forEach((src, index) => {
+    // 幻灯片
+    const slideDiv = document.createElement('div');
+    slideDiv.className = 'slide';
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = `Birthday photo ${index + 1}`;
+    slideDiv.appendChild(img);
+    slidesContainer.appendChild(slideDiv);
+
+    // 指示点
+    const dot = document.createElement('span');
+    dot.className = 'dot';
+    dot.setAttribute('onclick', `goToSlide(${index})`);
+    dotsContainer.appendChild(dot);
+  });
+
+  // 更新轮播位置和点状态
+  function updateSlides() {
+    slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((dot, i) => {
+      if (i === currentIndex) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+  }
+
+  // 切换函数（供按钮调用）
+  window.changeSlide = function(direction) {
+    currentIndex += direction;
+    if (currentIndex < 0) currentIndex = imageFiles.length - 1;
+    if (currentIndex >= imageFiles.length) currentIndex = 0;
+    updateSlides();
+  };
+
+  // 跳转到指定幻灯片（供点调用）
+  window.goToSlide = function(index) {
+    currentIndex = index;
+    updateSlides();
+  };
+
+  // 初始化显示第一张
+  updateSlides();
+
+  // 可选自动轮播（如需启用，去掉下一行的注释）
+  // setInterval(() => changeSlide(1), 3000);
+})();
+</script>
 
 </html>
