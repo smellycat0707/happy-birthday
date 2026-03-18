@@ -10,43 +10,42 @@
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
   <style>
-    .carousel { 
+    .carousel {
       display: flex;
-      overflow: hidden; 
-      width: 100%; 
-      margin: 20px 0; /* Add margin for spacing */
+      overflow: hidden;
+      width: 100%;
     }
 
-    .carousel-images { 
-      display: flex; 
-      transition: transform 0.5s ease; 
+    .carousel-images {
+      display: flex;
+      transition: transform 0.5s ease;
     }
 
-    .carousel-images img { 
-      min-width: 100%; 
-      height: auto; 
+    .carousel-images img {
+      min-width: 100%;
+      height: auto;
     }
 
-    .carousel-buttons { 
-      text-align: center; 
-      position: absolute; 
-      bottom: 20px; 
-      left: 50%; 
-      transform: translateX(-50%); 
+    .carousel-buttons {
+      text-align: center;
+      position: absolute; /* Position buttons absolute for better placement */
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
-    .carousel-button { 
-      cursor: pointer; 
-      margin: 10px; 
-      padding: 5px 10px; 
-      background-color: #007BFF; 
-      color: #fff; 
-      border: none; 
-      border-radius: 5px; 
+    .carousel-button {
+      cursor: pointer;
+      margin: 10px;
+      padding: 5px 10px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
     }
 
-    .hidden { 
-      display: none; /* Class to hide elements */ 
+    .hidden {
+      display: none; /* Class to hide elements */
     }
   </style>
 </head>
@@ -87,7 +86,7 @@
     </div>
     
     <!-- Image carousel begins here -->
-    <div class="carousel">
+    <div class="carousel" id="carouselContainer">
       <div class="carousel-images" id="carouselImages">
         <img src="img/P1.jpg" alt="">
         <img src="img/P2.jpg" alt="">
@@ -118,7 +117,7 @@
     <!-- Image carousel ends here -->
 
     <div class="six">
-      <img src="img/lydia2.png" alt="" class="lydia-dp" data-node-name="imagePath" id="lydiaImage">
+      <img src="img/lydia.png.png" alt="" class="lydia-dp" data-node-name="imagePath" id="lydiaImage">
       <img src="img/hat.svg" alt="" class="hat">
       <div class="wish">
         <h3 class="wish-hbd" data-node-name="wishHeading">Happy Birthday!</h3>
