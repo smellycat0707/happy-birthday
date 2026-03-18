@@ -9,14 +9,14 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
-  <!-- 图片轮播样式 -->
+  <!-- 图片轮播样式（左右箭头贴边，底部圆点居中） -->
   <style>
     .slideshow-container {
       max-width: 600px;
       position: relative;
       clear: both;
-      margin: 40px auto 30px auto;
-      display: none;                /* 初始隐藏 */
+      margin: 40px auto 30px auto;   /* 与隐藏文字保持原间距，轮播居中 */
+      display: none;                 /* 初始隐藏，文字动画结束后显示 */
       overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -39,7 +39,9 @@
       display: block;
     }
 
-    .prev, .next {
+    /* 左右箭头紧贴左右边缘 */
+    .prev,
+    .next {
       cursor: pointer;
       position: absolute;
       top: 50%;
@@ -65,10 +67,12 @@
       border-radius: 3px 0 0 3px;
     }
 
-    .prev:hover, .next:hover {
+    .prev:hover,
+    .next:hover {
       background-color: rgba(0, 0, 0, 0.8);
     }
 
+    /* 指示点底部居中 */
     .dots {
       text-align: center;
       padding: 10px 0;
@@ -85,7 +89,8 @@
       transition: background-color 0.3s ease;
     }
 
-    .dot.active, .dot:hover {
+    .dot.active,
+    .dot:hover {
       background-color: #717171;
     }
   </style>
@@ -93,7 +98,7 @@
 
 <body>
   <div class="container">
-    <!-- 文字部分（始终显示） -->
+    <!-- 文字部分（原样） -->
     <div class="one">
       <h1 class="one">
         <span data-node-name="greeting">Hey</span>
@@ -110,17 +115,17 @@
       <div class="dots" id="dots"></div>
     </div>
 
-    <!-- 后续所有内容（初始隐藏，轮播结束后再显示） -->
-    <div class="three" id="content-three" style="display: none;">
+    <!-- 后续所有内容（原样，将由动画控制） -->
+    <div class="three">
       <p data-node-name="text1">It's your birthday!!! :D</p>
     </div>
-    <div class="four" id="content-four" style="display: none;">
+    <div class="four">
       <div class="text-box">
         <p class="hbd-chatbox" data-node-name="textInChatBox">Happy birthday to you!! Yeee! Many many many happy blah...</p>
         <p class="fake-btn" data-node-name="sendButtonLabel">Send</p>
       </div>
     </div>
-    <div class="five" id="content-five" style="display: none;">
+    <div class="five">
       <p class="idea-1" data-node-name="text2">That's what I was going to do.</p>
       <p class="idea-2" data-node-name="text3">But then I stopped.</p>
       <p class="idea-3">
@@ -137,7 +142,7 @@
         <span data-node-name="bigTextPart2">O</span>
       </p>
     </div>
-    <div class="six" id="content-six" style="display: none;">
+    <div class="six">
       <img src="img/lydia.png.png" alt="" class="lydia-dp" data-node-name="imagePath">
       <img src="img/hat.svg" alt="" class="hat">
       <div class="wish">
@@ -145,7 +150,7 @@
         <h5 data-node-name="wishText">May the js.prototypes always be with you! ;)</h5>
       </div>
     </div>
-    <div class="seven" id="content-seven" style="display: none;">
+    <div class="seven">
       <div class="baloons">
         <img src="img/ballon2.svg" alt="">
         <img src="img/ballon1.svg" alt="">
@@ -182,7 +187,7 @@
         <img src="img/ballon3.svg" alt="">
       </div>
     </div>
-    <div class="eight" id="content-eight" style="display: none;">
+    <div class="eight">
       <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <circle cx="20" cy="20" r="20" />
       </svg>
@@ -211,116 +216,229 @@
         <circle cx="20" cy="20" r="20" />
       </svg>
     </div>
-    <div class="nine" id="content-nine" style="display: none;">
+    <div class="nine">
       <p data-node-name="outroText">Okay, now come back and tell me if you liked it.</p>
       <p id="replay" data-node-name="replayText">Or click, if you want to watch it again.</p>
       <p class="last-smile" data-node-name="outroSmiley">:)</p>
     </div>
   </div>
-</body>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
-<script type="application/javascript" src="script/main.js"></script>
+  <!-- 引入 GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 
-<!-- 图片轮播与后续内容控制脚本 -->
-<script>
-(function() {
-  // 生成图片文件名列表（P1.jpg ~ P20.jpg）
-  const imageFiles = [];
-  for (let i = 1; i <= 20; i++) {
-    imageFiles.push(`img/P${i}.jpg`);
-  }
-
-  const slidesContainer = document.getElementById('slides');
-  const dotsContainer = document.getElementById('dots');
-  const slideshow = document.getElementById('slideshowContainer');
-  let currentIndex = 0;
-  let autoPlayInterval = null;
-
-  // 动态创建幻灯片和指示点
-  imageFiles.forEach((src, index) => {
-    const slideDiv = document.createElement('div');
-    slideDiv.className = 'slide';
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = `Birthday photo ${index + 1}`;
-    slideDiv.appendChild(img);
-    slidesContainer.appendChild(slideDiv);
-
-    const dot = document.createElement('span');
-    dot.className = 'dot';
-    dot.setAttribute('onclick', `goToSlide(${index})`);
-    dotsContainer.appendChild(dot);
-  });
-
-  function updateSlides() {
-    slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-    const dots = document.querySelectorAll('.dot');
-    dots.forEach((dot, i) => {
-      if (i === currentIndex) {
-        dot.classList.add('active');
-      } else {
-        dot.classList.remove('active');
+  <!-- 轮播与动画控制脚本（含修改后的 main.js） -->
+  <script>
+    // ==================== 图片轮播功能 ====================
+    (function() {
+      // 生成图片文件名列表（P1.jpg ~ P20.jpg）
+      const imageFiles = [];
+      for (let i = 1; i <= 20; i++) {
+        imageFiles.push(`img/P${i}.jpg`);
       }
-    });
-  }
 
-  window.changeSlide = function(direction) {
-    if (!slideshow.style.display || slideshow.style.display === 'none') return;
-    currentIndex += direction;
-    if (currentIndex < 0) currentIndex = imageFiles.length - 1;
-    if (currentIndex >= imageFiles.length) currentIndex = 0;
-    updateSlides();
-  };
+      const slidesContainer = document.getElementById('slides');
+      const dotsContainer = document.getElementById('dots');
+      const slideshow = document.getElementById('slideshowContainer');
+      let currentIndex = 0;
+      let autoPlayInterval = null;
+      let isSlideshowActive = false; // 轮播是否正在进行
 
-  window.goToSlide = function(index) {
-    if (!slideshow.style.display || slideshow.style.display === 'none') return;
-    currentIndex = index;
-    updateSlides();
-  };
+      // 动态创建幻灯片和指示点
+      imageFiles.forEach((src, index) => {
+        const slideDiv = document.createElement('div');
+        slideDiv.className = 'slide';
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Birthday photo ${index + 1}`;
+        slideDiv.appendChild(img);
+        slidesContainer.appendChild(slideDiv);
 
-  updateSlides(); // 初始化第一张（但容器隐藏）
+        const dot = document.createElement('span');
+        dot.className = 'dot';
+        dot.setAttribute('onclick', `goToSlide(${index})`);
+        dotsContainer.appendChild(dot);
+      });
 
-  // ===== 时间线控制 =====
-  // 获取所有后续内容元素（从three到nine）
-  const contentElements = [
-    document.getElementById('content-three'),
-    document.getElementById('content-four'),
-    document.getElementById('content-five'),
-    document.getElementById('content-six'),
-    document.getElementById('content-seven'),
-    document.getElementById('content-eight'),
-    document.getElementById('content-nine')
-  ];
+      function updateSlides() {
+        slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+        const dots = document.querySelectorAll('.dot');
+        dots.forEach((dot, i) => {
+          if (i === currentIndex) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
 
-  // 初始时它们已经在HTML中设置为display:none，但为了保险再次确认
-  // （可选：如果希望原动画被触发，可以在显示后重新执行动画，但这里无法控制main.js）
+      window.changeSlide = function(direction) {
+        if (!isSlideshowActive) return; // 轮播未激活时忽略点击
+        currentIndex += direction;
+        if (currentIndex < 0) currentIndex = imageFiles.length - 1;
+        if (currentIndex >= imageFiles.length) currentIndex = 0;
+        updateSlides();
+      };
 
-  // 45秒后显示轮播并开始自动播放
-  setTimeout(function() {
-    slideshow.style.display = 'block';
+      window.goToSlide = function(index) {
+        if (!isSlideshowActive) return;
+        currentIndex = index;
+        updateSlides();
+      };
 
-    autoPlayInterval = setInterval(function() {
-      currentIndex = (currentIndex + 1) % imageFiles.length;
+      // 初始化第一张（但容器隐藏）
       updateSlides();
-    }, 3000);
 
-    // 60秒后（轮播结束）清除自动播放，隐藏轮播，并设置2秒空白后显示后续内容
-    setTimeout(function() {
-      clearInterval(autoPlayInterval);
-      slideshow.style.display = 'none'; // 轮播消失
+      // 提供给外部调用的开始轮播函数
+      window.startSlideshow = function() {
+        slideshow.style.display = 'block';
+        isSlideshowActive = true;
 
-      // 等待2秒空白间隔，然后显示后续内容
-      setTimeout(function() {
-        contentElements.forEach(el => el.style.display = 'block');
-        // 注意：如果原GSAP动画需要在元素可见时执行，可能需要重新触发。
-        // 由于main.js已在页面加载时执行，动画可能已经完成或不可见。
-        // 这里只是简单地让元素显示出来，它们会以静态方式出现。
-        // 如需保留动画，需要修改main.js，此处无法实现。
-      }, 2000); // 2秒空白间隔（可根据需要调整）
-    }, 60000);
-  }, 45000); // 45秒后开始
-})();
-</script>
+        // 启动自动播放
+        autoPlayInterval = setInterval(function() {
+          currentIndex = (currentIndex + 1) % imageFiles.length;
+          updateSlides();
+        }, 3000);
+
+        // 60秒后轮播结束（20张 * 3秒）
+        setTimeout(function() {
+          clearInterval(autoPlayInterval);
+          slideshow.style.display = 'none';
+          isSlideshowActive = false;
+
+          // 等待2秒空白，然后继续动画
+          setTimeout(function() {
+            if (window.resumeAnimation) window.resumeAnimation();
+          }, 2000);
+        }, 60000);
+      };
+    })();
+
+    // ==================== 原 main.js 功能（修改后添加暂停点） ====================
+    // 从 customize.json 获取数据并插入页面
+    const fetchData = () => {
+      fetch("customize.json")
+        .then(data => data.json())
+        .then(data => {
+          const dataArr = Object.keys(data);
+          dataArr.map(customData => {
+            if (data[customData] !== "") {
+              if (customData === "imagePath") {
+                document
+                  .querySelector(`[data-node-name*="${customData}"]`)
+                  .setAttribute("src", data[customData]);
+              } else {
+                document.querySelector(`[data-node-name*="${customData}"]`).innerText = data[customData];
+              }
+            }
+
+            // 所有数据插入完成后，执行动画
+            if (dataArr.length === dataArr.indexOf(customData) + 1) {
+              createAnimation();
+            }
+          });
+        });
+    };
+
+    // 定义动画时间线（修改版，加入暂停点）
+    let mainTimeline;
+
+    function createAnimation() {
+      // 拆分字符（用于逐个出现的效果）
+      const textBoxChars = document.getElementsByClassName("hbd-chatbox")[0];
+      const hbd = document.getElementsByClassName("wish-hbd")[0];
+
+      if (textBoxChars) {
+        textBoxChars.innerHTML = `<span>${textBoxChars.innerHTML
+          .split("")
+          .join("</span><span>")}</span>`;
+      }
+
+      if (hbd) {
+        hbd.innerHTML = `<span>${hbd.innerHTML
+          .split("")
+          .join("</span><span>")}</span>`;
+      }
+
+      const ideaTextTrans = {
+        opacity: 0,
+        y: -20,
+        rotationX: 5,
+        skewX: "15deg"
+      };
+
+      const ideaTextTransLeave = {
+        opacity: 0,
+        y: 20,
+        rotationY: 5,
+        skewX: "-15deg"
+      };
+
+      const tl = new TimelineMax({ paused: true }); // 初始暂停，等数据加载完再播放
+      mainTimeline = tl;
+
+      tl
+        .to(".container", 0.1, { visibility: "visible" })
+        .from(".one", 0.7, { opacity: 0, y: 10 })
+        .from(".two", 0.4, { opacity: 0, y: 10 })
+        .to(".one", 0.7, { opacity: 0, y: 10 }, "+=2.5")
+        .to(".two", 0.7, { opacity: 0, y: 10 }, "-=1")
+        // 在此处添加暂停点：文字部分结束，开始轮播
+        .addPause(undefined, function() {
+          // 回调：暂停时自动开始轮播
+          if (window.startSlideshow) window.startSlideshow();
+        })
+        .from(".three", 0.7, { opacity: 0, y: 10 })
+        .to(".three", 0.7, { opacity: 0, y: 10 }, "+=2")
+        .from(".four", 0.7, { scale: 0.2, opacity: 0 })
+        .from(".fake-btn", 0.3, { scale: 0.2, opacity: 0 })
+        .staggerTo(".hbd-chatbox span", 0.5, { visibility: "visible" }, 0.05)
+        .to(".fake-btn", 0.1, { backgroundColor: "rgb(127, 206, 248)" })
+        .to(".four", 0.5, { scale: 0.2, opacity: 0, y: -150 }, "+=0.7")
+        .from(".idea-1", 0.7, ideaTextTrans)
+        .to(".idea-1", 0.7, ideaTextTransLeave, "+=1.5")
+        .from(".idea-2", 0.7, ideaTextTrans)
+        .to(".idea-2", 0.7, ideaTextTransLeave, "+=1.5")
+        .from(".idea-3", 0.7, ideaTextTrans)
+        .to(".idea-3 strong", 0.5, { scale: 1.2, x: 10, backgroundColor: "rgb(21, 161, 237)", color: "#fff" })
+        .to(".idea-3", 0.7, ideaTextTransLeave, "+=1.5")
+        .from(".idea-4", 0.7, ideaTextTrans)
+        .to(".idea-4", 0.7, ideaTextTransLeave, "+=1.5")
+        .from(".idea-5", 0.7, { rotationX: 15, rotationZ: -10, skewY: "-5deg", y: 50, z: 10, opacity: 0 }, "+=0.5")
+        .to(".idea-5 .smiley", 0.7, { rotation: 90, x: 8 }, "+=0.4")
+        .to(".idea-5", 0.7, { scale: 0.2, opacity: 0 }, "+=2")
+        .staggerFrom(".idea-6 span", 0.8, { scale: 3, opacity: 0, rotation: 15, ease: Expo.easeOut }, 0.2)
+        .staggerTo(".idea-6 span", 0.8, { scale: 3, opacity: 0, rotation: -15, ease: Expo.easeOut }, 0.2, "+=1")
+        .staggerFromTo(".baloons img", 2.5, { opacity: 0.9, y: 1400 }, { opacity: 1, y: -1000 }, 0.2)
+        .from(".lydia-dp", 0.5, { scale: 3.5, opacity: 0, x: 25, y: -25, rotationZ: -45 }, "-=2")
+        .from(".hat", 0.5, { x: -100, y: 350, rotation: -180, opacity: 0 })
+        .staggerFrom(".wish-hbd span", 0.7, { opacity: 0, y: -50, rotation: 150, skewX: "30deg", ease: Elastic.easeOut.config(1, 0.5) }, 0.1)
+        .staggerFromTo(".wish-hbd span", 0.7, { scale: 1.4, rotationY: 150 }, { scale: 1, rotationY: 0, color: "#ff69b4", ease: Expo.easeOut }, 0.1, "party")
+        .from(".wish h5", 0.5, { opacity: 0, y: 10, skewX: "-15deg" }, "party")
+        .staggerTo(".eight svg", 1.5, { visibility: "visible", opacity: 0, scale: 80, repeat: 3, repeatDelay: 1.4 }, 0.3)
+        .to(".six", 0.5, { opacity: 0, y: 30, zIndex: "-1" })
+        .staggerFrom(".nine p", 1, ideaTextTrans, 1.2)
+        .to(".last-smile", 0.5, { rotation: 90 }, "+=1");
+
+      // 定义恢复动画的函数（供轮播结束后调用）
+      window.resumeAnimation = function() {
+        tl.resume();
+      };
+
+      // 重播按钮功能
+      const replyBtn = document.getElementById("replay");
+      if (replyBtn) {
+        replyBtn.addEventListener("click", () => {
+          tl.restart();
+        });
+      }
+
+      // 数据加载完成后立即播放动画（从头开始，会触发暂停点）
+      tl.play();
+    }
+
+    // 启动数据获取和动画
+    fetchData();
+  </script>
+</body>
 
 </html>
