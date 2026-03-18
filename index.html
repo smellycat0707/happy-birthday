@@ -9,31 +9,38 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
-  <!-- 图片轮播样式（左右箭头紧贴两端，指示点居中） -->
+  <!-- 图片轮播样式（初始隐藏，左右箭头贴边） -->
   <style>
+    /* 轮播容器：初始隐藏，等文字动画结束后再显示 */
     .slideshow-container {
       max-width: 600px;
       position: relative;
-      margin: 40px auto 30px auto;  /* 上边距拉开与文字距离，下边距与后续内容隔开 */
-      clear: both;                  /* 防止与上方浮动元素重叠 */
+      clear: both;                  /* 独立一行 */
+      margin: 40px auto 30px auto;  /* 上下间距，显示时自然分开 */
+      display: none;                /* 初始隐藏 */
       overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1;
     }
+
     .slides {
       display: flex;
       transition: transform 0.5s ease;
     }
+
     .slide {
       min-width: 100%;
       box-sizing: border-box;
     }
+
     .slide img {
       width: 100%;
       height: auto;
       display: block;
     }
-    /* 左右箭头紧贴容器左右边缘 */
+
+    /* 左右箭头分别紧贴左右边缘 */
     .prev, .next {
       cursor: pointer;
       position: absolute;
@@ -49,22 +56,27 @@
       text-decoration: none;
       z-index: 10;
     }
+
     .prev {
-      left: 0;                      /* 紧贴左边缘 */
+      left: 0;
       border-radius: 0 3px 3px 0;
     }
+
     .next {
-      right: 0;                      /* 紧贴右边缘 */
+      right: 0;
       border-radius: 3px 0 0 3px;
     }
+
     .prev:hover, .next:hover {
       background-color: rgba(0, 0, 0, 0.8);
     }
+
     /* 指示点底部居中 */
     .dots {
       text-align: center;
       padding: 10px 0;
     }
+
     .dot {
       cursor: pointer;
       height: 12px;
@@ -75,6 +87,7 @@
       display: inline-block;
       transition: background-color 0.3s ease;
     }
+
     .dot.active, .dot:hover {
       background-color: #717171;
     }
@@ -83,7 +96,7 @@
 
 <body>
   <div class="container">
-    <!-- 第1部分：Hey Esme 文字内容（完全保持原样，未做任何改动） -->
+    <!-- 第1部分：Hey Esme 文字内容（完全保持原样） -->
     <div class="one">
       <h1 class="one">
         <span data-node-name="greeting">Hey</span>
@@ -92,8 +105,8 @@
       <p class="two" data-node-name="greetingText">I really like your name btw!</p>
     </div>
 
-    <!-- 第2部分：图片轮播（紧接在文字之后，通过 clear:both 和 margin-top 确保不重叠） -->
-    <div class="slideshow-container">
+    <!-- 第2部分：图片轮播（HTML始终存在，但初始隐藏） -->
+    <div class="slideshow-container" id="slideshowContainer">
       <div class="slides" id="slides"></div>
       <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
       <a class="next" onclick="changeSlide(1)">&#10095;</a>
@@ -214,10 +227,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 <script type="application/javascript" src="script/main.js"></script>
 
-<!-- 图片轮播 JavaScript（3秒延迟自动播放） -->
+<!-- 图片轮播 JavaScript（等待文字动画结束后显示并自动播放） -->
 <script>
 (function() {
-  // 生成图片文件名列表（P1.jpg ~ P20.jpg），请确保图片已上传至 img 文件夹
+  // 生成图片文件名列表（P1.jpg ~ P20.jpg）
   const imageFiles = [];
   for (let i = 1; i <= 20; i++) {
     imageFiles.push(`img/P${i}.jpg`);
@@ -225,7 +238,9 @@
 
   const slidesContainer = document.getElementById('slides');
   const dotsContainer = document.getElementById('dots');
+  const slideshow = document.getElementById('slideshowContainer');
   let currentIndex = 0;
+  let autoPlayInterval = null;
 
   // 动态创建幻灯片和指示点
   imageFiles.forEach((src, index) => {
@@ -260,6 +275,7 @@
 
   // 切换函数（供按钮调用）
   window.changeSlide = function(direction) {
+    if (!slideshow.style.display || slideshow.style.display === 'none') return; // 未显示时忽略点击
     currentIndex += direction;
     if (currentIndex < 0) currentIndex = imageFiles.length - 1;
     if (currentIndex >= imageFiles.length) currentIndex = 0;
@@ -268,20 +284,26 @@
 
   // 跳转到指定幻灯片（供点调用）
   window.goToSlide = function(index) {
+    if (!slideshow.style.display || slideshow.style.display === 'none') return;
     currentIndex = index;
     updateSlides();
   };
 
-  // 初始化显示第一张
+  // 初始化显示第一张（但容器隐藏，实际不可见）
   updateSlides();
 
-  // 启动自动播放：3秒后开始，每3秒切换一张
+  // 等待文字动画结束后显示轮播并启动自动播放
+  // 原动画大约持续10-15秒，这里等待15秒后显示
   setTimeout(function() {
-    setInterval(function() {
+    slideshow.style.display = 'block'; // 显示轮播
+
+    // 启动自动播放，每3秒切换一张
+    if (autoPlayInterval) clearInterval(autoPlayInterval);
+    autoPlayInterval = setInterval(function() {
       currentIndex = (currentIndex + 1) % imageFiles.length;
       updateSlides();
     }, 3000);
-  }, 3000); // 3秒延迟
+  }, 15000); // 15秒后开始（可根据实际动画时长调整）
 })();
 </script>
 
