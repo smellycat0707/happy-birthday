@@ -9,95 +9,91 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
+  <!-- 图片轮播样式 -->
   <style>
-/* ===== 图片轮播样式 ===== */
-.slideshow-container {
-    max-width: 600px;        /* 轮播最大宽度，你可以根据需要改大或改小 */
-    position: relative;
-    margin: 30px auto;       /* 上下边距30px，水平居中 */
-    overflow: hidden;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-}
+    .slideshow-container {
+      max-width: 600px;
+      position: relative;
+      clear: both;
+      margin: 40px auto 30px auto;
+      display: none;                /* 初始隐藏 */
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
 
-/* 幻灯片区域（放置所有图片） */
-.slides {
-    display: flex;
-    transition: transform 0.5s ease;
-}
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
 
-/* 每个幻灯片项（每张图片的容器） */
-.slide {
-    min-width: 100%;         /* 确保每张图片占满容器宽度 */
-    box-sizing: border-box;
-}
+    .slide {
+      min-width: 100%;
+      box-sizing: border-box;
+    }
 
-.slide img {
-    width: 100%;             /* 图片自适应容器宽度 */
-    height: auto;
-    display: block;
-}
+    .slide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
 
-/* 上一张、下一张按钮 */
-.prev, .next {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 16px;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    background-color: rgba(0,0,0,0.3);
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-    text-decoration: none;
-    z-index: 10;             /* 保证按钮在图片上方 */
-}
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 16px;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 0 3px 3px 0;
+      user-select: none;
+      text-decoration: none;
+      z-index: 10;
+    }
 
-.next {
-    right: 0;
-    border-radius: 3px 0 0 3px;
-}
+    .prev {
+      left: 0;
+      border-radius: 0 3px 3px 0;
+    }
 
-.prev:hover, .next:hover {
-    background-color: rgba(0,0,0,0.8);
-}
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
 
-/* 指示点容器 */
-.dots {
-    text-align: center;
-    padding: 10px 0;
-}
+    .prev:hover, .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
 
-/* 单个指示点 */
-.dot {
-    cursor: pointer;
-    height: 12px;
-    width: 12px;
-    margin: 0 4px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    transition: background-color 0.3s ease;
-}
+    .dots {
+      text-align: center;
+      padding: 10px 0;
+    }
 
-.dot.active, .dot:hover {
-    background-color: #717171;
-}
-</style>
+    .dot {
+      cursor: pointer;
+      height: 12px;
+      width: 12px;
+      margin: 0 4px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.3s ease;
+    }
+
+    .dot.active, .dot:hover {
+      background-color: #717171;
+    }
+  </style>
 </head>
 
 <body>
   <div class="container">
-        <!-- ===== 图片轮播 HTML ===== -->
-    <div class="slideshow-container">
-        <div class="slides" id="slides"></div>
-        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
-        <a class="next" onclick="changeSlide(1)">&#10095;</a>
-        <div class="dots" id="dots"></div>
-    </div>
-    <!-- ===== 轮播结束 ===== -->
+    <!-- 文字部分（始终显示） -->
     <div class="one">
       <h1 class="one">
         <span data-node-name="greeting">Hey</span>
@@ -105,21 +101,32 @@
       </h1>
       <p class="two" data-node-name="greetingText">I really like your name btw!</p>
     </div>
-    <div class="three">
+
+    <!-- 图片轮播容器（初始隐藏） -->
+    <div class="slideshow-container" id="slideshowContainer">
+      <div class="slides" id="slides"></div>
+      <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+      <a class="next" onclick="changeSlide(1)">&#10095;</a>
+      <div class="dots" id="dots"></div>
+    </div>
+
+    <!-- 后续所有内容（初始隐藏，轮播结束后再显示） -->
+    <div class="three" id="content-three" style="display: none;">
       <p data-node-name="text1">It's your birthday!!! :D</p>
     </div>
-    <div class="four">
+    <div class="four" id="content-four" style="display: none;">
       <div class="text-box">
         <p class="hbd-chatbox" data-node-name="textInChatBox">Happy birthday to you!! Yeee! Many many many happy blah...</p>
         <p class="fake-btn" data-node-name="sendButtonLabel">Send</p>
       </div>
     </div>
-    <div class="five">
+    <div class="five" id="content-five" style="display: none;">
       <p class="idea-1" data-node-name="text2">That's what I was going to do.</p>
       <p class="idea-2" data-node-name="text3">But then I stopped.</p>
       <p class="idea-3">
         <span data-node-name="text4">I realised, I wanted to do something</span>
-        <strong data-node-name="text4Adjective">special</strong>.</p>
+        <strong data-node-name="text4Adjective">special</strong>.
+      </p>
       <p class="idea-4" data-node-name="text5Entry">Because,</p>
       <p class="idea-5">
         <span data-node-name="text5Content">You are Special</span>
@@ -130,7 +137,7 @@
         <span data-node-name="bigTextPart2">O</span>
       </p>
     </div>
-    <div class="six">
+    <div class="six" id="content-six" style="display: none;">
       <img src="img/lydia.png.png" alt="" class="lydia-dp" data-node-name="imagePath">
       <img src="img/hat.svg" alt="" class="hat">
       <div class="wish">
@@ -138,7 +145,7 @@
         <h5 data-node-name="wishText">May the js.prototypes always be with you! ;)</h5>
       </div>
     </div>
-    <div class="seven">
+    <div class="seven" id="content-seven" style="display: none;">
       <div class="baloons">
         <img src="img/ballon2.svg" alt="">
         <img src="img/ballon1.svg" alt="">
@@ -175,7 +182,7 @@
         <img src="img/ballon3.svg" alt="">
       </div>
     </div>
-    <div class="eight">
+    <div class="eight" id="content-eight" style="display: none;">
       <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
         <circle cx="20" cy="20" r="20" />
       </svg>
@@ -204,7 +211,7 @@
         <circle cx="20" cy="20" r="20" />
       </svg>
     </div>
-    <div class="nine">
+    <div class="nine" id="content-nine" style="display: none;">
       <p data-node-name="outroText">Okay, now come back and tell me if you liked it.</p>
       <p id="replay" data-node-name="replayText">Or click, if you want to watch it again.</p>
       <p class="last-smile" data-node-name="outroSmiley">:)</p>
@@ -214,72 +221,105 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 <script type="application/javascript" src="script/main.js"></script>
-  <script>
-// ===== 图片轮播 JavaScript =====
+
+<!-- 图片轮播与后续内容控制脚本 -->
+<script>
 (function() {
-    // 图片文件名列表（共20张，从P1.jpg到P20.jpg）
-    const imageFiles = [];
-    for (let i = 1; i <= 20; i++) {
-        imageFiles.push(`img/P${i}.jpg`);
-    }
+  // 生成图片文件名列表（P1.jpg ~ P20.jpg）
+  const imageFiles = [];
+  for (let i = 1; i <= 20; i++) {
+    imageFiles.push(`img/P${i}.jpg`);
+  }
 
-    const slidesContainer = document.getElementById('slides');
-    const dotsContainer = document.getElementById('dots');
-    let currentIndex = 0;
+  const slidesContainer = document.getElementById('slides');
+  const dotsContainer = document.getElementById('dots');
+  const slideshow = document.getElementById('slideshowContainer');
+  let currentIndex = 0;
+  let autoPlayInterval = null;
 
-    // 1. 动态创建幻灯片和指示点
-    imageFiles.forEach((src, index) => {
-        // 创建幻灯片
-        const slideDiv = document.createElement('div');
-        slideDiv.className = 'slide';
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = `Birthday photo ${index + 1}`;
-        slideDiv.appendChild(img);
-        slidesContainer.appendChild(slideDiv);
+  // 动态创建幻灯片和指示点
+  imageFiles.forEach((src, index) => {
+    const slideDiv = document.createElement('div');
+    slideDiv.className = 'slide';
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = `Birthday photo ${index + 1}`;
+    slideDiv.appendChild(img);
+    slidesContainer.appendChild(slideDiv);
 
-        // 创建指示点
-        const dot = document.createElement('span');
-        dot.className = 'dot';
-        dot.setAttribute('onclick', `goToSlide(${index})`);
-        dotsContainer.appendChild(dot);
+    const dot = document.createElement('span');
+    dot.className = 'dot';
+    dot.setAttribute('onclick', `goToSlide(${index})`);
+    dotsContainer.appendChild(dot);
+  });
+
+  function updateSlides() {
+    slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach((dot, i) => {
+      if (i === currentIndex) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
     });
+  }
 
-    // 2. 更新轮播显示（移动slides容器，高亮点）
-    function updateSlides() {
-        slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-        // 更新点的激活状态
-        const dots = document.querySelectorAll('.dot');
-        dots.forEach((dot, i) => {
-            if (i === currentIndex) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
-    }
-
-    // 3. 切换函数（供按钮调用）
-    window.changeSlide = function(direction) {
-        currentIndex += direction;
-        if (currentIndex < 0) currentIndex = imageFiles.length - 1;
-        if (currentIndex >= imageFiles.length) currentIndex = 0;
-        updateSlides();
-    };
-
-    // 4. 跳转到指定幻灯片（供点调用）
-    window.goToSlide = function(index) {
-        currentIndex = index;
-        updateSlides();
-    };
-
-    // 5. 初始化显示第一张
+  window.changeSlide = function(direction) {
+    if (!slideshow.style.display || slideshow.style.display === 'none') return;
+    currentIndex += direction;
+    if (currentIndex < 0) currentIndex = imageFiles.length - 1;
+    if (currentIndex >= imageFiles.length) currentIndex = 0;
     updateSlides();
+  };
 
-    // 可选：自动轮播（如果你想要自动播放，取消下面注释）
-    // setInterval(() => {
-    //     changeSlide(1);
-    // }, 3000);
+  window.goToSlide = function(index) {
+    if (!slideshow.style.display || slideshow.style.display === 'none') return;
+    currentIndex = index;
+    updateSlides();
+  };
+
+  updateSlides(); // 初始化第一张（但容器隐藏）
+
+  // ===== 时间线控制 =====
+  // 获取所有后续内容元素（从three到nine）
+  const contentElements = [
+    document.getElementById('content-three'),
+    document.getElementById('content-four'),
+    document.getElementById('content-five'),
+    document.getElementById('content-six'),
+    document.getElementById('content-seven'),
+    document.getElementById('content-eight'),
+    document.getElementById('content-nine')
+  ];
+
+  // 初始时它们已经在HTML中设置为display:none，但为了保险再次确认
+  // （可选：如果希望原动画被触发，可以在显示后重新执行动画，但这里无法控制main.js）
+
+  // 45秒后显示轮播并开始自动播放
+  setTimeout(function() {
+    slideshow.style.display = 'block';
+
+    autoPlayInterval = setInterval(function() {
+      currentIndex = (currentIndex + 1) % imageFiles.length;
+      updateSlides();
+    }, 3000);
+
+    // 60秒后（轮播结束）清除自动播放，隐藏轮播，并设置2秒空白后显示后续内容
+    setTimeout(function() {
+      clearInterval(autoPlayInterval);
+      slideshow.style.display = 'none'; // 轮播消失
+
+      // 等待2秒空白间隔，然后显示后续内容
+      setTimeout(function() {
+        contentElements.forEach(el => el.style.display = 'block');
+        // 注意：如果原GSAP动画需要在元素可见时执行，可能需要重新触发。
+        // 由于main.js已在页面加载时执行，动画可能已经完成或不可见。
+        // 这里只是简单地让元素显示出来，它们会以静态方式出现。
+        // 如需保留动画，需要修改main.js，此处无法实现。
+      }, 2000); // 2秒空白间隔（可根据需要调整）
+    }, 60000);
+  }, 45000); // 45秒后开始
 })();
 </script>
 
